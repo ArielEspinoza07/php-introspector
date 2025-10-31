@@ -1,0 +1,36 @@
+{
+    "name": "aurora-php/reflection",
+    "description": "A component for reflection",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Ariel Espinoza",
+            "email": "arielespinoza46@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.3"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^2.1",
+        "pestphp/pest": "^4.0",
+        "laravel/pint": "^1.25"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Aurora\\Reflection\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Aurora\\Reflection\\Tests\\": "tests/"
+        }
+    },
+    "minimum-stability": "dev",
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    }
+}

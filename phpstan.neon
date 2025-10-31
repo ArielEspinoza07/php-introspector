@@ -1,0 +1,13 @@
+includes:
+
+parameters:
+    level: 8
+
+    paths:
+        - src
+
+    inferPrivatePropertyTypeFromConstructor: true
+
+    stubFiles: []
+
+    reportUnmatchedIgnoredErrors: true
