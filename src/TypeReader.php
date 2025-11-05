@@ -102,9 +102,8 @@ final class TypeReader
     private function resolveSpecialType(string $typeName, ReflectionClass $context): ?string
     {
         return match ($typeName) {
-            'self' => $context->getName(),
-            'parent' => $context->getParentClass()?->getName(),
-            'static' => $context->getName(), // Note: static is resolved at runtime, we return the declaring class
+            'self', 'static' => $context->getName(),
+            'parent' => $context->getParentClass() !== false ? $context->getParentClass()->getName() : null,
             default => null,
         };
     }

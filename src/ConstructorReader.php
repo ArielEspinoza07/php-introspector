@@ -41,11 +41,14 @@ final class ConstructorReader
 
     private function getVisibility(ReflectionMethod $ref): Visibility
     {
-        return match(true) {
-            $ref->isPrivate() => Visibility::Private,
-            $ref->isPublic() => Visibility::Public,
-            $ref->isProtected() => Visibility::Protected,
-        };
+        if ($ref->isPrivate()) {
+            return Visibility::Private;
+        }
+        if ($ref->isProtected()) {
+            return Visibility::Protected;
+        }
+
+        return Visibility::Public;
     }
 
     /**

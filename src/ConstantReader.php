@@ -47,7 +47,7 @@ final class ConstantReader
 
     private function isFinal(ReflectionClassConstant $constant): bool
     {
-        // isFinal() is available since PHP 8.1
+        /** @phpstan-ignore-next-line */
         if (method_exists($constant, 'isFinal')) {
             return $constant->isFinal();
         }
@@ -82,6 +82,11 @@ final class ConstantReader
      */
     private function getType(ReflectionClassConstant $constant, ?ReflectionClass $context = null): ?TypeMetadata
     {
+        /** @phpstan-ignore-next-line */
+        if (! method_exists($constant, 'getType')) {
+            return null;
+        }
+
         $reader = new TypeReader;
 
         return $reader->getMetadata($constant->getType(), $context);
@@ -89,10 +94,13 @@ final class ConstantReader
 
     private function getVisibility(ReflectionClassConstant $constant): Visibility
     {
-        return match (true) {
-            $constant->isPrivate() => Visibility::Private,
-            $constant->isProtected() => Visibility::Protected,
-            $constant->isPublic() => Visibility::Public,
-        };
+        if ($constant->isPrivate()) {
+            return Visibility::Private;
+        }
+        if ($constant->isProtected()) {
+            return Visibility::Protected;
+        }
+
+        return Visibility::Public;
     }
 }

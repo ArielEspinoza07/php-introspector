@@ -32,25 +32,10 @@ final class MethodReader
         }
 
         $methsMetadata = [];
-
         foreach ($methods as $method) {
             if ($method->isConstructor()) {
                 continue;
             }
-            $lines = null;
-
-            if ($method->getStartLine() !== false) {
-                $lines = new LinesMetadata(
-                    start: $method->getStartLine(),
-                    end: $method->getEndLine(),
-                );
-            }
-
-            $visibility = match (true) {
-                $method->isPrivate() => Visibility::Private,
-                $method->isPublic() => Visibility::Public,
-                $method->isProtected() => Visibility::Protected,
-            };
 
             $methsMetadata[] = new MethodMetadata(
                 name: $method->getName(),
@@ -58,9 +43,9 @@ final class MethodReader
                     isAbstract: $method->isAbstract(),
                     isFinal: $method->isFinal(),
                     isStatic: $method->isStatic(),
-                    visibility: $visibility,
+                    visibility: $this->getVisibility($method),
                 ),
-                lines: $lines,
+                lines: $this->getLines($method),
                 docBlock: $this->getDocBlock($method),
                 returnType: $this->getType($method, $ref),
                 parameters: $this->getParameters($method, $ref),
@@ -132,5 +117,29 @@ final class MethodReader
         $reader = new TypeReader;
 
         return $reader->getMetadata($ref->getReturnType(), $classRef);
+    }
+
+    private function getLines(ReflectionMethod $ref): ?LinesMetadata
+    {
+        if ($ref->getStartLine() !== false && $ref->getEndLine() !== false) {
+            return new LinesMetadata(
+                start: $ref->getStartLine(),
+                end: $ref->getEndLine(),
+            );
+        }
+
+        return null;
+    }
+
+    private function getVisibility(ReflectionMethod $ref): Visibility
+    {
+        if ($ref->isPrivate()) {
+            return Visibility::Private;
+        }
+        if ($ref->isProtected()) {
+            return Visibility::Protected;
+        }
+
+        return Visibility::Public;
     }
 }

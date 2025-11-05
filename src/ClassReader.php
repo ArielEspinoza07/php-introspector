@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Aurora\Reflection;
 
+use Aurora\Reflection\Enums\ClassType;
 use Aurora\Reflection\VOs\Attributes\AttributeMetadata;
 use Aurora\Reflection\VOs\Classes\ClassMetadata;
 use Aurora\Reflection\VOs\DocBlocks\DocBlockMetadata;
 use Aurora\Reflection\VOs\Modifiers\ClassModifier;
-use Aurora\Reflection\Enums\ClassType;
 use Aurora\Reflection\VOs\Shared\LinesMetadata;
 use ReflectionClass;
 
@@ -22,16 +22,17 @@ final class ClassReader
      */
     public function getMetadata(ReflectionClass $ref): ClassMetadata
     {
+        $file = 'Not Found';
+        if ($ref->getFileName() !== false) {
+            $file = $ref->getFileName();
+        }
+
         return new ClassMetadata(
             name: $ref->getName(),
             shortName: $ref->getShortName(),
             nameSpace: $ref->getNamespaceName(),
-            file: $ref->getFileName(),
+            file: $file,
             type: $this->getClassType($ref),
-            lines: new LinesMetadata(
-                start: $ref->getStartLine(),
-                end: $ref->getEndLine(),
-            ),
             modifier: new ClassModifier(
                 isAbstract: $ref->isAbstract(),
                 isFinal: $ref->isFinal(),
@@ -40,6 +41,7 @@ final class ClassReader
                 isAnonymous: $ref->isAnonymous(),
                 isInstantiable: $ref->isInstantiable(),
             ),
+            lines: $this->getLines($ref),
             docBlock: $this->getDocBlock($ref),
             extends: $this->getParent($ref),
             implements: $ref->getInterfaceNames(),
@@ -110,5 +112,20 @@ final class ClassReader
         $reader = new DocBlockReader;
 
         return $reader->getMetadata($docComment);
+    }
+
+    /**
+     * @param  ReflectionClass<T>  $ref
+     */
+    private function getLines(ReflectionClass $ref): ?LinesMetadata
+    {
+        if ($ref->getStartLine() !== false && $ref->getEndLine() !== false) {
+            return new LinesMetadata(
+                start: $ref->getStartLine(),
+                end: $ref->getEndLine(),
+            );
+        }
+
+        return null;
     }
 }

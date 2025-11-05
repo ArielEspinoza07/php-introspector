@@ -158,6 +158,7 @@ final class DocBlockReader
 
         if (preg_match('/^&?\$([^\s]+)\s*(.*)/', $remaining, $matches)) {
             $name = $matches[1];
+            /** @phpstan-ignore-next-line */
             $description = isset($matches[2]) && $matches[2] !== '' ? trim($matches[2]) : '';
         }
 

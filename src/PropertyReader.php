@@ -31,17 +31,10 @@ final class PropertyReader
 
         $propsMetadata = [];
         foreach ($properties as $property) {
-
-            $visibility = match (true) {
-                $property->isPrivate() => Visibility::Private,
-                $property->isPublic() => Visibility::Public,
-                $property->isProtected() => Visibility::Protected,
-            };
-
             $propsMetadata[] = new PropertyMetadata(
                 name: $property->getName(),
                 modifier: new PropertyModifier(
-                    visibility: $visibility,
+                    visibility: $this->getVisibility($property),
                     isPromoted: $property->isPromoted(),
                     isDefault: $property->isDefault(),
                     isStatic: $property->isStatic(),
@@ -99,5 +92,17 @@ final class PropertyReader
         $reader = new TypeReader;
 
         return $reader->getMetadata($reflectionProperty->getType(), $classRef);
+    }
+
+    private function getVisibility(ReflectionProperty $reflectionProperty): Visibility
+    {
+        if ($reflectionProperty->isPrivate()) {
+            return Visibility::Private;
+        }
+        if ($reflectionProperty->isProtected()) {
+            return Visibility::Protected;
+        }
+
+        return Visibility::Public;
     }
 }
