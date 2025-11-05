@@ -8,6 +8,7 @@ use Aurora\Reflection\VOs\Attributes\AttributeMetadata;
 use Aurora\Reflection\VOs\Classes\ClassMetadata;
 use Aurora\Reflection\VOs\DocBlocks\DocBlockMetadata;
 use Aurora\Reflection\VOs\Modifiers\ClassModifier;
+use Aurora\Reflection\VOs\Shared\ClassType;
 use Aurora\Reflection\VOs\Shared\LinesMetadata;
 use ReflectionClass;
 
@@ -26,6 +27,7 @@ final class ClassReader
             shortName: $ref->getShortName(),
             nameSpace: $ref->getNamespaceName(),
             file: $ref->getFileName(),
+            type: $this->getClassType($ref),
             lines: new LinesMetadata(
                 start: $ref->getStartLine(),
                 end: $ref->getEndLine(),
@@ -57,6 +59,20 @@ final class ClassReader
         }
 
         return $parent->getName();
+    }
+
+    /**
+     * @param  ReflectionClass<T>  $ref
+     */
+    private function getClassType(ReflectionClass $ref): ClassType
+    {
+        return match (true) {
+            $ref->isTrait() => ClassType::Trait,
+            $ref->isInterface() => ClassType::Interface,
+            $ref->isEnum() => ClassType::Enum,
+            $ref->isAnonymous() => ClassType::Anonymous,
+            default => ClassType::Class_,
+        };
     }
 
     /**
