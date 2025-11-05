@@ -9,6 +9,7 @@ use Aurora\Reflection\VOs\Attributes\AttributeMetadata;
 use Aurora\Reflection\VOs\DocBlocks\DocBlockMetadata;
 use Aurora\Reflection\VOs\Modifiers\PropertyModifier;
 use Aurora\Reflection\VOs\Properties\PropertyMetadata;
+use Aurora\Reflection\VOs\Types\TypeMetadata;
 use ReflectionClass;
 use ReflectionProperty;
 
@@ -49,7 +50,7 @@ final class PropertyReader
                 hasDefaultValue: $property->hasDefaultValue(),
                 defaultValue: $property->getDefaultValue(),
                 docBlock: $this->getDocBlock($property),
-                type: TypeReader::toMetadata($property->getType()),
+                type: $this->getType($property, $ref),
                 attributes: $this->getAttributes($property),
             );
         }
@@ -88,5 +89,15 @@ final class PropertyReader
         $reader = new DocBlockReader;
 
         return $reader->getMetadata($docComment);
+    }
+
+    /**
+     * @param  ReflectionClass<T>  $classRef
+     */
+    private function getType(ReflectionProperty $reflectionProperty, ReflectionClass $classRef): ?TypeMetadata
+    {
+        $reader = new TypeReader;
+
+        return $reader->getMetadata($reflectionProperty->getType(), $classRef);
     }
 }

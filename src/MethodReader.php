@@ -11,6 +11,7 @@ use Aurora\Reflection\VOs\Methods\MethodMetadata;
 use Aurora\Reflection\VOs\Modifiers\MethodModifier;
 use Aurora\Reflection\VOs\Parameters\ParameterMetadata;
 use Aurora\Reflection\VOs\Shared\LinesMetadata;
+use Aurora\Reflection\VOs\Types\TypeMetadata;
 use ReflectionClass;
 use ReflectionMethod;
 
@@ -61,8 +62,8 @@ final class MethodReader
                 ),
                 lines: $lines,
                 docBlock: $this->getDocBlock($method),
-                returnType: TypeReader::toMetadata($method->getReturnType()),
-                parameters: $this->getParameters($method),
+                returnType: $this->getType($method, $ref),
+                parameters: $this->getParameters($method, $ref),
                 attributes: $this->getAttributes($method),
             );
         }
@@ -71,9 +72,10 @@ final class MethodReader
     }
 
     /**
+     * @param  ReflectionClass<T>  $classRef
      * @return list<ParameterMetadata>
      */
-    private function getParameters(ReflectionMethod $ref): array
+    private function getParameters(ReflectionMethod $ref, ReflectionClass $classRef): array
     {
         $parameters = $ref->getParameters();
         if (count($parameters) === 0) {
@@ -84,7 +86,7 @@ final class MethodReader
         $parmsMetadata = [];
 
         foreach ($parameters as $parameter) {
-            $parmsMetadata[] = $reader->getMetadata($parameter);
+            $parmsMetadata[] = $reader->getMetadata($parameter, $classRef);
         }
 
         return $parmsMetadata;
@@ -120,5 +122,15 @@ final class MethodReader
         $reader = new DocBlockReader;
 
         return $reader->getMetadata($docComment);
+    }
+
+    /**
+     * @param  ReflectionClass<T>  $classRef
+     */
+    private function getType(ReflectionMethod $ref, ReflectionClass $classRef): ?TypeMetadata
+    {
+        $reader = new TypeReader;
+
+        return $reader->getMetadata($ref->getReturnType(), $classRef);
     }
 }
