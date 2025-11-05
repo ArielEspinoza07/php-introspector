@@ -6,6 +6,7 @@ namespace Aurora\Reflection;
 
 use Aurora\Reflection\VOs\Attributes\AttributeMetadata;
 use Aurora\Reflection\VOs\Parameters\ParameterMetadata;
+use Aurora\Reflection\VOs\Types\TypeMetadata;
 use ReflectionParameter;
 
 final class ParameterReader
@@ -28,9 +29,9 @@ final class ParameterReader
         );
     }
 
-    private function getType(ReflectionParameter $parameter): ?string
+    private function getType(ReflectionParameter $parameter): ?TypeMetadata
     {
-        return TypeStringifier::toString($parameter->getType());
+        return TypeStringifier::toMetadata($parameter->getType());
     }
 
     /**

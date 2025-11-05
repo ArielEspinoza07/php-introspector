@@ -51,7 +51,7 @@ final class MethodReader
                     end: $method->getEndLine(),
                 ),
                 docBlock: $this->getDocBlock($method),
-                returnType: TypeStringifier::toString($method->getReturnType()),
+                returnType: TypeStringifier::toMetadata($method->getReturnType()),
                 parameters: $this->getParameters($method),
                 attributes: $this->getAttributes($method),
             );

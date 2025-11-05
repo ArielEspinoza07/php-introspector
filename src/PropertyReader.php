@@ -43,7 +43,7 @@ final class PropertyReader
                 hasDefaultValue: $property->hasDefaultValue(),
                 defaultValue: $property->getDefaultValue(),
                 docBlock: $this->getDocBlock($property),
-                type: TypeStringifier::toString($property->getType()),
+                type: TypeStringifier::toMetadata($property->getType()),
                 attributes: $this->getAttributes($property),
             );
         }
