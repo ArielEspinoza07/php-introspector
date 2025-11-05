@@ -9,8 +9,10 @@ use Aurora\Reflection\VOs\Attributes\AttributeMetadata;
 use Aurora\Reflection\VOs\DocBlocks\DocBlockMetadata;
 use Aurora\Reflection\VOs\Modifiers\PropertyModifier;
 use Aurora\Reflection\VOs\Properties\PropertyMetadata;
+use Aurora\Reflection\VOs\Shared\DeclaringSource;
 use Aurora\Reflection\VOs\Types\TypeMetadata;
 use ReflectionClass;
+use ReflectionException;
 use ReflectionProperty;
 
 /**
@@ -42,6 +44,7 @@ final class PropertyReader
                 ),
                 hasDefaultValue: $property->hasDefaultValue(),
                 defaultValue: $property->getDefaultValue(),
+                declaringSource: $this->getDeclaringSource($property, $ref),
                 docBlock: $this->getDocBlock($property),
                 type: $this->getType($property, $ref),
                 attributes: $this->getAttributes($property),
@@ -104,5 +107,17 @@ final class PropertyReader
         }
 
         return Visibility::Public;
+    }
+
+    /**
+     * @param  ReflectionClass<T>  $classRef
+     *
+     * @throws ReflectionException
+     */
+    private function getDeclaringSource(ReflectionProperty $reflectionProperty, ReflectionClass $classRef): DeclaringSource
+    {
+        $reader = new DeclaringSourceReader;
+
+        return $reader->fromProperty($reflectionProperty, $classRef);
     }
 }
