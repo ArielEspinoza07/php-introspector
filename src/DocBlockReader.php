@@ -136,56 +136,70 @@ final class DocBlockReader
     private function parseParamTag(string $line): ?ParamTag
     {
         // @param type $name description
-        $pattern = '/@param\s+([^\s]+)?\s*(\$[^\s]+)?\s*(.*)?/';
-        if (preg_match($pattern, $line, $matches)) {
-            $type = isset($matches[1]) && $matches[1] !== '' ? $matches[1] : null;
-            $name = isset($matches[2]) && $matches[2] !== '' ? ltrim($matches[2], '$') : '';
-            $description = isset($matches[3]) && $matches[3] !== '' ? trim($matches[3]) : null;
+        // Remove the @param tag
+        $text = preg_replace('/^@param\s+/', '', $line);
 
-            if ($name !== '') {
-                return new ParamTag(
-                    name: $name,
-                    type: $type,
-                    description: $description,
-                );
-            }
+        if ($text === null || $text === '') {
+            return null;
         }
 
-        return null;
+        // Extract the type first
+        [$type, $remaining] = $this->extractType($text);
+
+        // Now extract the parameter name ($variable)
+        $name = '';
+        $description = '';
+
+        if (preg_match('/^\$([^\s]+)\s*(.*)/', $remaining, $matches)) {
+            $name = $matches[1];
+            $description = isset($matches[2]) && $matches[2] !== '' ? trim($matches[2]) : '';
+        }
+
+        if ($name === '') {
+            return null;
+        }
+
+        return new ParamTag(
+            name: $name,
+            type: $type,
+            description: $description !== '' ? $description : null,
+        );
     }
 
     private function parseReturnTag(string $line): ?ReturnTag
     {
         // @return type description
-        $pattern = '/@return\s+([^\s]+)?\s*(.*)?/';
-        if (preg_match($pattern, $line, $matches)) {
-            $type = isset($matches[1]) && $matches[1] !== '' ? $matches[1] : null;
-            $description = isset($matches[2]) && $matches[2] !== '' ? trim($matches[2]) : null;
+        // Remove the @return tag
+        $text = preg_replace('/^@return\s+/', '', $line);
 
-            return new ReturnTag(
-                type: $type,
-                description: $description,
-            );
+        if ($text === null || $text === '') {
+            return null;
         }
 
-        return null;
+        [$type, $description] = $this->extractType($text);
+
+        return new ReturnTag(
+            type: $type,
+            description: $description !== '' ? $description : null,
+        );
     }
 
     private function parseVarTag(string $line): ?VarTag
     {
         // @var type description
-        $pattern = '/@var\s+([^\s]+)?\s*(.*)?/';
-        if (preg_match($pattern, $line, $matches)) {
-            $type = isset($matches[1]) && $matches[1] !== '' ? $matches[1] : null;
-            $description = isset($matches[2]) && $matches[2] !== '' ? trim($matches[2]) : null;
+        // Remove the @var tag
+        $text = preg_replace('/^@var\s+/', '', $line);
 
-            return new VarTag(
-                type: $type,
-                description: $description,
-            );
+        if ($text === null || $text === '') {
+            return null;
         }
 
-        return null;
+        [$type, $description] = $this->extractType($text);
+
+        return new VarTag(
+            type: $type,
+            description: $description !== '' ? $description : null,
+        );
     }
 
     private function parseThrowsTag(string $line): ?ThrowsTag
@@ -203,5 +217,54 @@ final class DocBlockReader
         }
 
         return null;
+    }
+
+    /**
+     * Extract type from a line, handling generic types with angle brackets
+     *
+     * This method parses types character by character to correctly handle
+     * generic types like array<string, mixed> or Collection<User, array<int, string>>
+     *
+     * @param string $text The text to parse (after the tag name)
+     * @return array{0: string|null, 1: string} [type, remaining text]
+     */
+    private function extractType(string $text): array
+    {
+        $text = ltrim($text);
+
+        if ($text === '') {
+            return [null, ''];
+        }
+
+        $depth = 0;
+        $type = '';
+        $length = strlen($text);
+
+        for ($i = 0; $i < $length; $i++) {
+            $char = $text[$i];
+
+            if ($char === '<') {
+                $depth++;
+                $type .= $char;
+            } elseif ($char === '>') {
+                $depth--;
+                $type .= $char;
+
+                // If we've closed all brackets, continue until we hit a space or end
+                if ($depth === 0) {
+                    continue;
+                }
+            } elseif ($depth === 0 && ctype_space($char)) {
+                // Found a space outside of angle brackets - type is complete
+                break;
+            } else {
+                $type .= $char;
+            }
+        }
+
+        // Get the remaining text after the type
+        $remaining = substr($text, strlen($type));
+
+        return [trim($type) !== '' ? trim($type) : null, trim($remaining)];
     }
 }
