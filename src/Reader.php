@@ -6,7 +6,7 @@ namespace Aurora\Reflection;
 
 use Aurora\Reflection\Exceptions\ReflectionReadException;
 use Aurora\Reflection\VOs\Classes\ClassMetadata;
-use Aurora\Reflection\VOs\ConstructorMetadata;
+use Aurora\Reflection\VOs\Constructors\ConstructorMetadata;
 use Aurora\Reflection\VOs\Metadata;
 use Aurora\Reflection\VOs\Methods\MethodMetadata;
 use Aurora\Reflection\VOs\Properties\PropertyMetadata;

@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace Aurora\Reflection;
 
 use Aurora\Reflection\VOs\AttributeMetadata;
-use Aurora\Reflection\VOs\ConstructorMetadata;
+use Aurora\Reflection\VOs\Constructors\ConstructorMetadata;
+use Aurora\Reflection\VOs\Constructors\ConstructorModifier;
 use Aurora\Reflection\VOs\Parameters\ParameterMetadata;
 use ReflectionClass;
 use ReflectionMethod;
@@ -27,9 +28,11 @@ final class ConstructorReader
         }
 
         return new ConstructorMetadata(
-            isPublic: $constr->isPublic(),
-            isProtected: $constr->isProtected(),
-            isPrivate: $constr->isPrivate(),
+            modifier: new ConstructorModifier(
+                isPublic: $constr->isPublic(),
+                isProtected: $constr->isProtected(),
+                isPrivate: $constr->isPrivate(),
+            ),
             parameters: $this->getParameters($constr),
             attributes: $this->getAttributes($constr),
         );
