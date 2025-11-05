@@ -6,6 +6,7 @@ namespace Aurora\Reflection;
 
 use Aurora\Reflection\Exceptions\ReflectionReadException;
 use Aurora\Reflection\VOs\Classes\ClassMetadata;
+use Aurora\Reflection\VOs\Constants\ConstantMetadata;
 use Aurora\Reflection\VOs\Constructors\ConstructorMetadata;
 use Aurora\Reflection\VOs\Metadata;
 use Aurora\Reflection\VOs\Methods\MethodMetadata;
@@ -34,6 +35,7 @@ final class Reader
                 constructor: $this->getConstructorMetadata($ref),
                 properties: $this->getPropertiesMetadata($ref),
                 methods: $this->getMethodsMetadata($ref),
+                constants: $this->getConstantsMetadata($ref),
             );
         } catch (ReflectionException $e) {
             throw new ReflectionReadException();
@@ -78,6 +80,17 @@ final class Reader
     private function getMethodsMetadata(ReflectionClass $ref): array
     {
         $reader = new MethodReader;
+
+        return $reader->getMetadata($ref);
+    }
+
+    /**
+     * @param  ReflectionClass<T>  $ref
+     * @return list<ConstantMetadata>
+     */
+    private function getConstantsMetadata(ReflectionClass $ref): array
+    {
+        $reader = new ConstantReader;
 
         return $reader->getMetadata($ref);
     }
