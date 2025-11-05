@@ -18,6 +18,7 @@ final readonly class TypeMetadata implements JsonSerializable
         public bool $isNullable = false,
         public bool $isUnion = false,
         public bool $isIntersection = false,
+        public bool $isSpecial = false,
         public array $unionTypes = [],
         public array $intersectionTypes = [],
     ) {}
@@ -33,6 +34,7 @@ final readonly class TypeMetadata implements JsonSerializable
             'is_nullable' => $this->isNullable,
             'is_union' => $this->isUnion,
             'is_intersection' => $this->isIntersection,
+            'is_special' => $this->isSpecial,
             'union_types' => array_map(fn (TypeMetadata $type) => $type->toArray(), $this->unionTypes),
             'intersection_types' => array_map(fn (TypeMetadata $type) => $type->toArray(), $this->intersectionTypes),
         ];
