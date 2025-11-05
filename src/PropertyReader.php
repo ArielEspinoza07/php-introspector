@@ -21,8 +21,9 @@ use ReflectionProperty;
 final class PropertyReader
 {
     /**
-     * @param  ReflectionClass<T>  $ref
+     * @param ReflectionClass<T> $ref
      * @return list<PropertyMetadata>
+     * @throws ReflectionException
      */
     public function getMetadata(ReflectionClass $ref): array
     {
