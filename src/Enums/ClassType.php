@@ -7,8 +7,8 @@ namespace Aurora\Reflection\Enums;
 enum ClassType: string
 {
     case Class_ = 'class';
-    case Interface = 'interface';
-    case Trait = 'trait';
-    case Enum = 'enum';
-    case Anonymous = 'anonymous';
+    case Interface_ = 'interface';
+    case Trait_ = 'trait';
+    case Enum_ = 'enum';
+    case Anonymous_ = 'anonymous';
 }

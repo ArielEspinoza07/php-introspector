@@ -69,10 +69,10 @@ final class ClassReader
     private function getClassType(ReflectionClass $ref): ClassType
     {
         return match (true) {
-            $ref->isTrait() => ClassType::Trait,
-            $ref->isInterface() => ClassType::Interface,
-            $ref->isEnum() => ClassType::Enum,
-            $ref->isAnonymous() => ClassType::Anonymous,
+            $ref->isTrait() => ClassType::Trait_,
+            $ref->isInterface() => ClassType::Interface_,
+            $ref->isEnum() => ClassType::Enum_,
+            $ref->isAnonymous() => ClassType::Anonymous_,
             default => ClassType::Class_,
         };
     }
