@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Aurora\Reflection\VOs;
 
 use Aurora\Reflection\VOs\Classes\ClassMetadata;
+use Aurora\Reflection\VOs\Constructors\ConstructorMetadata;
 use Aurora\Reflection\VOs\Methods\MethodMetadata;
 use Aurora\Reflection\VOs\Properties\PropertyMetadata;
 use JsonSerializable;
