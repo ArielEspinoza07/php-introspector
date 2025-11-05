@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Aurora\Reflection;
 
+use Aurora\Reflection\VOs\DocBlocks\CustomTag;
 use Aurora\Reflection\VOs\DocBlocks\DocBlockMetadata;
 use Aurora\Reflection\VOs\DocBlocks\ParamTag;
 use Aurora\Reflection\VOs\DocBlocks\ReturnTag;
@@ -14,7 +15,7 @@ final class DocBlockReader
 {
     public function getMetadata(?string $docComment): ?DocBlockMetadata
     {
-        if ($docComment === null || $docComment === false || $docComment === '') {
+        if (in_array($docComment, [null, false, ''])) {
             return null;
         }
 
@@ -25,7 +26,7 @@ final class DocBlockReader
         }
 
         [$summary, $description] = $this->extractSummaryAndDescription($contentLines);
-        [$params, $return, $var, $throws] = $this->extractTags($tagLines);
+        [$params, $return, $var, $throws, $customs] = $this->extractTags($tagLines);
 
         if ($summary === null && $description === null && empty($params) && $return === null && $var === null && empty($throws)) {
             return null;
@@ -38,6 +39,7 @@ final class DocBlockReader
             return: $return,
             var: $var,
             throws: $throws,
+            custom: $customs,
         );
     }
 
@@ -46,9 +48,8 @@ final class DocBlockReader
      */
     private function parseDocComment(string $docComment): array
     {
-        // Remove /** and */
-        $docComment = preg_replace('#^/\*\*#', '', $docComment);
-        $docComment = preg_replace('#\*/$#', '', $docComment);
+        // Remove /**, */ and *
+        $docComment = strtr($docComment, ['/**' => '', '*/' => '', '*' => '']);
 
         // Split by lines
         $lines = explode("\n", $docComment);
@@ -58,8 +59,7 @@ final class DocBlockReader
         $inTags = false;
 
         foreach ($lines as $line) {
-            // Remove leading * and whitespace
-            $line = preg_replace('#^\s*\*\s?#', '', $line);
+            // Remove whitespace
             $line = trim($line);
 
             if ($line === '') {
@@ -103,7 +103,7 @@ final class DocBlockReader
 
     /**
      * @param  list<string>  $tagLines
-     * @return array{0: list<ParamTag>, 1: ReturnTag|null, 2: VarTag|null, 3: list<ThrowsTag>}
+     * @return array{0: list<ParamTag>, 1: ReturnTag|null, 2: VarTag|null, 3: list<ThrowsTag>, 4: list<CustomTag>}
      */
     private function extractTags(array $tagLines): array
     {
@@ -111,6 +111,7 @@ final class DocBlockReader
         $return = null;
         $var = null;
         $throws = [];
+        $customs = [];
 
         foreach ($tagLines as $line) {
             if (str_starts_with($line, '@param')) {
@@ -127,10 +128,15 @@ final class DocBlockReader
                 if ($throw !== null) {
                     $throws[] = $throw;
                 }
+            } elseif (str_starts_with($line, '@')) {
+                $custom = $this->parseCustomTag($line);
+                if ($custom !== null) {
+                    $customs[] = $custom;
+                }
             }
         }
 
-        return [$params, $return, $var, $throws];
+        return [$params, $return, $var, $throws, $customs];
     }
 
     private function parseParamTag(string $line): ?ParamTag
@@ -219,13 +225,31 @@ final class DocBlockReader
         return null;
     }
 
+    private function parseCustomTag(string $line): ?CustomTag
+    {
+        // @tagname description
+        // Extract tag name and description
+        $pattern = '/^@([a-zA-Z0-9_-]+)\s*(.*)?/';
+        if (preg_match($pattern, $line, $matches)) {
+            $type = $matches[1];
+            $description = isset($matches[2]) && $matches[2] !== '' ? trim($matches[2]) : null;
+
+            return new CustomTag(
+                type: $type,
+                description: $description,
+            );
+        }
+
+        return null;
+    }
+
     /**
      * Extract type from a line, handling generic types with angle brackets
      *
      * This method parses types character by character to correctly handle
      * generic types like array<string, mixed> or Collection<User, array<int, string>>
      *
-     * @param string $text The text to parse (after the tag name)
+     * @param  string  $text  The text to parse (after the tag name)
      * @return array{0: string|null, 1: string} [type, remaining text]
      */
     private function extractType(string $text): array
@@ -238,7 +262,7 @@ final class DocBlockReader
 
         $depth = 0;
         $type = '';
-        $length = strlen($text);
+        $length = mb_strlen($text);
 
         for ($i = 0; $i < $length; $i++) {
             $char = $text[$i];
@@ -263,7 +287,7 @@ final class DocBlockReader
         }
 
         // Get the remaining text after the type
-        $remaining = substr($text, strlen($type));
+        $remaining = mb_substr($text, mb_strlen($type));
 
         return [trim($type) !== '' ? trim($type) : null, trim($remaining)];
     }
