@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Aurora\Reflection\VOs;
+namespace Aurora\Reflection\VOs\Attributes;
 
 use JsonSerializable;
 
