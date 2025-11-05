@@ -14,6 +14,7 @@ final readonly class TypeMetadata implements JsonSerializable
      */
     public function __construct(
         public ?string $name = null,
+        public ?string $resolvedName = null,
         public bool $isBuiltin = false,
         public bool $isNullable = false,
         public bool $isUnion = false,
@@ -30,6 +31,7 @@ final readonly class TypeMetadata implements JsonSerializable
     {
         return [
             'name' => $this->name,
+            'resolved_name' => $this->resolvedName,
             'is_builtin' => $this->isBuiltin,
             'is_nullable' => $this->isNullable,
             'is_union' => $this->isUnion,
