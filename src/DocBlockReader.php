@@ -146,11 +146,11 @@ final class DocBlockReader
         // Extract the type first
         [$type, $remaining] = $this->extractType($text);
 
-        // Now extract the parameter name ($variable)
+        // Now extract the parameter name ($variable or &$variable for by-reference)
         $name = '';
         $description = '';
 
-        if (preg_match('/^\$([^\s]+)\s*(.*)/', $remaining, $matches)) {
+        if (preg_match('/^&?\$([^\s]+)\s*(.*)/', $remaining, $matches)) {
             $name = $matches[1];
             $description = isset($matches[2]) && $matches[2] !== '' ? trim($matches[2]) : '';
         }
