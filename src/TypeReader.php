@@ -19,7 +19,7 @@ final class TypeReader
     /**
      * @param  ReflectionClass<T>|null  $context
      */
-    public static function toMetadata(?ReflectionType $type, ?ReflectionClass $context = null): ?TypeMetadata
+    public function getMetadata(?ReflectionType $type, ?ReflectionClass $context = null): ?TypeMetadata
     {
         if ($type === null) {
             return null;
@@ -29,9 +29,9 @@ final class TypeReader
 
         if ($type instanceof ReflectionNamedType) {
             $name = $type->getName();
-            $isSpecial = self::isSpecialType($name);
+            $isSpecial = $this->isSpecialType($name);
             $resolvedName = $isSpecial && $context !== null
-                ? self::resolveSpecialType($name, $context)
+                ? $this->resolveSpecialType($name, $context)
                 : null;
 
             return new TypeMetadata(
@@ -47,7 +47,7 @@ final class TypeReader
 
         if ($type instanceof ReflectionUnionType) {
             $unionTypes = array_map(
-                fn (ReflectionType $t) => self::toMetadata($t, $context),
+                fn (ReflectionType $t) => $this->getMetadata($t, $context),
                 $type->getTypes()
             );
 
@@ -55,7 +55,7 @@ final class TypeReader
             $unionTypes = array_filter($unionTypes, fn ($t) => $t !== null);
 
             return new TypeMetadata(
-                name: self::toString($type),
+                name: $this->toString($type),
                 isBuiltin: false,
                 isNullable: $nullable,
                 isUnion: true,
@@ -66,7 +66,7 @@ final class TypeReader
 
         if ($type instanceof ReflectionIntersectionType) {
             $intersectionTypes = array_map(
-                fn (ReflectionType $t) => self::toMetadata($t, $context),
+                fn (ReflectionType $t) => $this->getMetadata($t, $context),
                 $type->getTypes()
             );
 
@@ -74,7 +74,7 @@ final class TypeReader
             $intersectionTypes = array_filter($intersectionTypes, fn ($t) => $t !== null);
 
             return new TypeMetadata(
-                name: self::toString($type),
+                name: $this->toString($type),
                 isBuiltin: false,
                 isNullable: false,
                 isUnion: false,
@@ -89,15 +89,17 @@ final class TypeReader
     /**
      * Check if a type name is a special PHP type (self, parent, static)
      */
-    private static function isSpecialType(string $typeName): bool
+    private function isSpecialType(string $typeName): bool
     {
         return in_array($typeName, ['self', 'parent', 'static'], true);
     }
 
     /**
      * Resolve special types (self, parent, static) to their actual class names
+     *
+     * @param  ReflectionClass<T>  $context
      */
-    private static function resolveSpecialType(string $typeName, ReflectionClass $context): ?string
+    private function resolveSpecialType(string $typeName, ReflectionClass $context): ?string
     {
         return match ($typeName) {
             'self' => $context->getName(),
@@ -107,7 +109,7 @@ final class TypeReader
         };
     }
 
-    private static function toString(?ReflectionType $type): ?string
+    private function toString(?ReflectionType $type): ?string
     {
         if ($type === null) {
             return null;
