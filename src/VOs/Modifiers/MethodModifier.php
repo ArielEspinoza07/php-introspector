@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Aurora\Reflection\VOs\Modifiers;
 
+use Aurora\Reflection\Enums\Visibility;
 use JsonSerializable;
 
 final readonly class MethodModifier implements JsonSerializable
@@ -12,13 +13,11 @@ final readonly class MethodModifier implements JsonSerializable
         public bool $isAbstract,
         public bool $isFinal,
         public bool $isStatic,
-        public bool $isPrivate,
-        public bool $isProtected,
-        public bool $isPublic,
+        public Visibility $visibility,
     ) {}
 
     /**
-     * @return array<string, bool>
+     * @return array<string, mixed>
      */
     public function toArray(): array
     {
@@ -26,9 +25,7 @@ final readonly class MethodModifier implements JsonSerializable
             'is_abstract' => $this->isAbstract,
             'is_final' => $this->isFinal,
             'is_static' => $this->isStatic,
-            'is_private' => $this->isPrivate,
-            'is_protected' => $this->isProtected,
-            'is_public' => $this->isPublic,
+            'visibility' => $this->visibility->value,
         ];
     }
 
