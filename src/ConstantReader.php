@@ -36,7 +36,6 @@ final class ConstantReader
                 value: $constant->getValue(),
                 visibility: $this->getVisibility($constant),
                 isFinal: $this->isFinal($constant),
-                isReadOnly: $this->isReadOnly($constant),
                 type: $this->getType($constant, $ref),
                 docBlock: $this->getDocBlock($constant),
             );
@@ -50,16 +49,6 @@ final class ConstantReader
         /** @phpstan-ignore-next-line */
         if (method_exists($constant, 'isFinal')) {
             return $constant->isFinal();
-        }
-
-        return false;
-    }
-
-    private function isReadOnly(ReflectionClassConstant $constant): bool
-    {
-        // isFinal() is available since PHP 8.1
-        if (method_exists($constant, 'isReadonly')) {
-            return $constant->isReadonly();
         }
 
         return false;

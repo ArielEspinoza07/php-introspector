@@ -16,7 +16,6 @@ final readonly class ConstantMetadata implements JsonSerializable
         public mixed $value,
         public Visibility $visibility,
         public bool $isFinal = false,
-        public bool $isReadOnly = false,
         public ?TypeMetadata $type = null,
         public ?DocBlockMetadata $docBlock = null,
     ) {}
@@ -31,7 +30,6 @@ final readonly class ConstantMetadata implements JsonSerializable
             'value' => $this->value,
             'visibility' => $this->visibility,
             'is_final' => $this->isFinal,
-            'is_read_only' => $this->isReadOnly,
             'type' => $this->type,
             'doc_block' => $this->docBlock?->toArray(),
         ];
