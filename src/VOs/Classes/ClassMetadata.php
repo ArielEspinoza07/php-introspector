@@ -6,6 +6,7 @@ namespace Aurora\Reflection\VOs\Classes;
 
 use Aurora\Reflection\VOs\Attributes\AttributeMetadata;
 use Aurora\Reflection\VOs\Modifiers\ClassModifier;
+use Aurora\Reflection\VOs\Shared\LinesMetadata;
 use JsonSerializable;
 
 final readonly class ClassMetadata implements JsonSerializable
