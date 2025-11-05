@@ -7,9 +7,11 @@ namespace Aurora\Reflection;
 use Aurora\Reflection\Enums\Visibility;
 use Aurora\Reflection\VOs\Constants\ConstantMetadata;
 use Aurora\Reflection\VOs\DocBlocks\DocBlockMetadata;
+use Aurora\Reflection\VOs\Shared\DeclaringSource;
 use Aurora\Reflection\VOs\Types\TypeMetadata;
 use ReflectionClass;
 use ReflectionClassConstant;
+use ReflectionException;
 
 /**
  * @template T of object
@@ -19,6 +21,8 @@ final class ConstantReader
     /**
      * @param  ReflectionClass<T>  $ref
      * @return list<ConstantMetadata>
+     *
+     * @throws ReflectionException
      */
     public function getMetadata(ReflectionClass $ref): array
     {
@@ -35,6 +39,7 @@ final class ConstantReader
                 name: $constant->getName(),
                 value: $constant->getValue(),
                 visibility: $this->getVisibility($constant),
+                declaringSource: $this->getDeclaringSource($constant, $ref),
                 isFinal: $this->isFinal($constant),
                 type: $this->getType($constant, $ref),
                 docBlock: $this->getDocBlock($constant),
@@ -91,5 +96,17 @@ final class ConstantReader
         }
 
         return Visibility::Public;
+    }
+
+    /**
+     * @param  ReflectionClass<T>  $classRef
+     *
+     * @throws ReflectionException
+     */
+    private function getDeclaringSource(ReflectionClassConstant $constant, ReflectionClass $classRef): DeclaringSource
+    {
+        $reader = new DeclaringSourceReader;
+
+        return $reader->fromConstant($constant, $classRef);
     }
 }
