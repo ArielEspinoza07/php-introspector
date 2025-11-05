@@ -10,7 +10,7 @@ use ReflectionNamedType;
 use ReflectionType;
 use ReflectionUnionType;
 
-final class TypeStringifier
+final class TypeReader
 {
     public static function toString(?ReflectionType $type): ?string
     {
