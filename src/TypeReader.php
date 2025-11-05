@@ -12,50 +12,6 @@ use ReflectionUnionType;
 
 final class TypeReader
 {
-    public static function toString(?ReflectionType $type): ?string
-    {
-        if ($type === null) {
-            return null;
-        }
-
-        $nullable = $type->allowsNull();
-
-        if ($type instanceof ReflectionNamedType) {
-            $name = $type->getName();
-
-            return $nullable && $name !== 'mixed' ? "?{$name}" : $name;
-        }
-
-        if ($type instanceof ReflectionUnionType) {
-            $parts = array_map(
-                fn (ReflectionType $t) => ltrim((string) self::toString($t), '?'),
-                $type->getTypes()
-            );
-
-            return implode('|', $parts);
-        }
-
-        if ($type instanceof ReflectionIntersectionType) {
-            $parts = array_map(
-                fn (ReflectionType $t) => (string) self::toString($t),
-                $type->getTypes()
-            );
-
-            return implode('&', $parts);
-        }
-
-        return null;
-    }
-
-    public static function isBuiltin(ReflectionType $type): bool
-    {
-        if ($type instanceof ReflectionNamedType) {
-            return $type->isBuiltin();
-        }
-
-        return false;
-    }
-
     public static function toMetadata(?ReflectionType $type): ?TypeMetadata
     {
         if ($type === null) {
@@ -66,6 +22,7 @@ final class TypeReader
 
         if ($type instanceof ReflectionNamedType) {
             $name = $type->getName();
+            $isSpecial = self::isSpecialType($name);
 
             return new TypeMetadata(
                 name: $name,
@@ -73,6 +30,7 @@ final class TypeReader
                 isNullable: $nullable && $name !== 'mixed',
                 isUnion: false,
                 isIntersection: false,
+                isSpecial: $isSpecial,
             );
         }
 
@@ -112,6 +70,49 @@ final class TypeReader
                 isIntersection: true,
                 intersectionTypes: array_values($intersectionTypes),
             );
+        }
+
+        return null;
+    }
+
+    /**
+     * Check if a type name is a special PHP type (self, parent, static)
+     */
+    private static function isSpecialType(string $typeName): bool
+    {
+        return in_array($typeName, ['self', 'parent', 'static'], true);
+    }
+
+    private static function toString(?ReflectionType $type): ?string
+    {
+        if ($type === null) {
+            return null;
+        }
+
+        $nullable = $type->allowsNull();
+
+        if ($type instanceof ReflectionNamedType) {
+            $name = $type->getName();
+
+            return $nullable && $name !== 'mixed' ? "?{$name}" : $name;
+        }
+
+        if ($type instanceof ReflectionUnionType) {
+            $parts = array_map(
+                fn (ReflectionType $t) => ltrim((string) self::toString($t), '?'),
+                $type->getTypes()
+            );
+
+            return implode('|', $parts);
+        }
+
+        if ($type instanceof ReflectionIntersectionType) {
+            $parts = array_map(
+                fn (ReflectionType $t) => (string) self::toString($t),
+                $type->getTypes()
+            );
+
+            return implode('&', $parts);
         }
 
         return null;
