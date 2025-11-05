@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Aurora\Reflection\VOs\Classes;
+namespace Aurora\Reflection\VOs\Modifiers;
 
 use JsonSerializable;
 
-final readonly class ClassModifier implements JsonSerializable
+final readonly class MethodModifier implements JsonSerializable
 {
     public function __construct(
         public bool $isAbstract,
         public bool $isFinal,
-        public bool $isReadonly,
-        public bool $isInternal,
-        public bool $isAnonymous,
-        public bool $isInstantiable,
+        public bool $isStatic,
+        public bool $isPrivate,
+        public bool $isProtected,
+        public bool $isPublic,
     ) {}
 
     /**
@@ -25,10 +25,10 @@ final readonly class ClassModifier implements JsonSerializable
         return [
             'is_abstract' => $this->isAbstract,
             'is_final' => $this->isFinal,
-            'is_readonly' => $this->isReadonly,
-            'is_internal' => $this->isInternal,
-            'is_anonymous' => $this->isAnonymous,
-            'is_instantiable' => $this->isInstantiable,
+            'is_static' => $this->isStatic,
+            'is_private' => $this->isPrivate,
+            'is_protected' => $this->isProtected,
+            'is_public' => $this->isPublic,
         ];
     }
 
