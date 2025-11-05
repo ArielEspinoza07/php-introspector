@@ -8,7 +8,7 @@ use Aurora\Reflection\VOs\Attributes\AttributeMetadata;
 use Aurora\Reflection\VOs\Classes\ClassMetadata;
 use Aurora\Reflection\VOs\DocBlocks\DocBlockMetadata;
 use Aurora\Reflection\VOs\Modifiers\ClassModifier;
-use Aurora\Reflection\VOs\Shared\ClassType;
+use Aurora\Reflection\Enums\ClassType;
 use Aurora\Reflection\VOs\Shared\LinesMetadata;
 use ReflectionClass;
 
