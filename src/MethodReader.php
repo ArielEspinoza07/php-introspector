@@ -35,6 +35,14 @@ final class MethodReader
             if ($method->isConstructor()) {
                 continue;
             }
+            $lines = null;
+
+            if ($method->getStartLine() !== false) {
+                $lines = new LinesMetadata(
+                    start: $method->getStartLine(),
+                    end: $method->getEndLine(),
+                );
+            }
 
             $methsMetadata[] = new MethodMetadata(
                 name: $method->getName(),
@@ -46,10 +54,7 @@ final class MethodReader
                     isProtected: $method->isProtected(),
                     isPublic: $method->isPublic(),
                 ),
-                lines: new LinesMetadata(
-                    start: $method->getStartLine(),
-                    end: $method->getEndLine(),
-                ),
+                lines: $lines,
                 docBlock: $this->getDocBlock($method),
                 returnType: TypeReader::toMetadata($method->getReturnType()),
                 parameters: $this->getParameters($method),
