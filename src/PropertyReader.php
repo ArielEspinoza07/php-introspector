@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Aurora\Reflection;
 
+use Aurora\Reflection\Enums\Visibility;
 use Aurora\Reflection\VOs\Attributes\AttributeMetadata;
 use Aurora\Reflection\VOs\DocBlocks\DocBlockMetadata;
 use Aurora\Reflection\VOs\Modifiers\PropertyModifier;
@@ -29,12 +30,17 @@ final class PropertyReader
 
         $propsMetadata = [];
         foreach ($properties as $property) {
+
+            $visibility = match (true) {
+                $property->isPrivate() => Visibility::Private,
+                $property->isPublic() => Visibility::Public,
+                $property->isProtected() => Visibility::Protected,
+            };
+
             $propsMetadata[] = new PropertyMetadata(
                 name: $property->getName(),
                 modifier: new PropertyModifier(
-                    isPrivate: $property->isPrivate(),
-                    isProtected: $property->isProtected(),
-                    isPublic: $property->isPublic(),
+                    visibility: $visibility,
                     isPromoted: $property->isPromoted(),
                     isDefault: $property->isDefault(),
                     isStatic: $property->isStatic(),

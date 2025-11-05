@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Aurora\Reflection;
 
+use Aurora\Reflection\Enums\Visibility;
 use Aurora\Reflection\VOs\Attributes\AttributeMetadata;
 use Aurora\Reflection\VOs\Constructors\ConstructorMetadata;
 use Aurora\Reflection\VOs\DocBlocks\DocBlockMetadata;
@@ -30,14 +31,21 @@ final class ConstructorReader
 
         return new ConstructorMetadata(
             modifier: new ConstructorModifier(
-                isPublic: $constr->isPublic(),
-                isProtected: $constr->isProtected(),
-                isPrivate: $constr->isPrivate(),
+                visibility: $this->getVisibility($constr)
             ),
             docBlock: $this->getDocBlock($constr),
             parameters: $this->getParameters($constr),
             attributes: $this->getAttributes($constr),
         );
+    }
+
+    private function getVisibility(ReflectionMethod $ref): Visibility
+    {
+        return match(true) {
+            $ref->isPrivate() => Visibility::Private,
+            $ref->isPublic() => Visibility::Public,
+            $ref->isProtected() => Visibility::Protected,
+        };
     }
 
     /**

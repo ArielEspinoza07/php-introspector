@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Aurora\Reflection;
 
+use Aurora\Reflection\Enums\Visibility;
 use Aurora\Reflection\VOs\Attributes\AttributeMetadata;
 use Aurora\Reflection\VOs\DocBlocks\DocBlockMetadata;
 use Aurora\Reflection\VOs\Methods\MethodMetadata;
@@ -44,15 +45,19 @@ final class MethodReader
                 );
             }
 
+            $visibility = match (true) {
+                $method->isPrivate() => Visibility::Private,
+                $method->isPublic() => Visibility::Public,
+                $method->isProtected() => Visibility::Protected,
+            };
+
             $methsMetadata[] = new MethodMetadata(
                 name: $method->getName(),
                 modifier: new MethodModifier(
                     isAbstract: $method->isAbstract(),
                     isFinal: $method->isFinal(),
                     isStatic: $method->isStatic(),
-                    isPrivate: $method->isPrivate(),
-                    isProtected: $method->isProtected(),
-                    isPublic: $method->isPublic(),
+                    visibility: $visibility,
                 ),
                 lines: $lines,
                 docBlock: $this->getDocBlock($method),
