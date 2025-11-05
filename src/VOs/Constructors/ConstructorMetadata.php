@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Aurora\Reflection\VOs\Constructors;
 
 use Aurora\Reflection\VOs\Attributes\AttributeMetadata;
+use Aurora\Reflection\VOs\Modifiers\ConstructorModifier;
 use Aurora\Reflection\VOs\Parameters\ParameterMetadata;
 use JsonSerializable;
 

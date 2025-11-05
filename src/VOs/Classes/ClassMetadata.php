@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Aurora\Reflection\VOs\Classes;
 
 use Aurora\Reflection\VOs\Attributes\AttributeMetadata;
+use Aurora\Reflection\VOs\Modifiers\ClassModifier;
 use JsonSerializable;
 
 final readonly class ClassMetadata implements JsonSerializable
