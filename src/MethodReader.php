@@ -8,6 +8,7 @@ use Aurora\Reflection\VOs\Attributes\AttributeMetadata;
 use Aurora\Reflection\VOs\Methods\MethodMetadata;
 use Aurora\Reflection\VOs\Modifiers\MethodModifier;
 use Aurora\Reflection\VOs\Parameters\ParameterMetadata;
+use Aurora\Reflection\VOs\Shared\LinesMetadata;
 use ReflectionClass;
 use ReflectionMethod;
 
@@ -43,6 +44,10 @@ final class MethodReader
                     isPrivate: $method->isPrivate(),
                     isProtected: $method->isProtected(),
                     isPublic: $method->isPublic(),
+                ),
+                lines: new LinesMetadata(
+                    start: $method->getStartLine(),
+                    end: $method->getEndLine(),
                 ),
                 returnType: TypeStringifier::toString($method->getReturnType()),
                 parameters: $this->getParameters($method),
