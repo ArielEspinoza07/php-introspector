@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Aurora\Reflection;
 
+use Aurora\Reflection\Enums\Visibility;
 use Aurora\Reflection\VOs\Constants\ConstantMetadata;
 use Aurora\Reflection\VOs\DocBlocks\DocBlockMetadata;
+use Aurora\Reflection\VOs\Types\TypeMetadata;
 use ReflectionClass;
 use ReflectionClassConstant;
 
@@ -32,10 +34,10 @@ final class ConstantReader
             $constantsMetadata[] = new ConstantMetadata(
                 name: $constant->getName(),
                 value: $constant->getValue(),
-                isPublic: $constant->isPublic(),
-                isProtected: $constant->isProtected(),
-                isPrivate: $constant->isPrivate(),
+                visibility: $this->getVisibility($constant),
                 isFinal: $this->isFinal($constant),
+                isReadOnly: $this->isReadOnly($constant),
+                type: $this->getType($constant, $ref),
                 docBlock: $this->getDocBlock($constant),
             );
         }
@@ -53,6 +55,16 @@ final class ConstantReader
         return false;
     }
 
+    private function isReadOnly(ReflectionClassConstant $constant): bool
+    {
+        // isFinal() is available since PHP 8.1
+        if (method_exists($constant, 'isReadonly')) {
+            return $constant->isReadonly();
+        }
+
+        return false;
+    }
+
     private function getDocBlock(ReflectionClassConstant $constant): ?DocBlockMetadata
     {
         $docComment = $constant->getDocComment();
@@ -63,5 +75,24 @@ final class ConstantReader
         $reader = new DocBlockReader;
 
         return $reader->getMetadata($docComment);
+    }
+
+    /**
+     * @param  ReflectionClass<T>|null  $context
+     */
+    private function getType(ReflectionClassConstant $constant, ?ReflectionClass $context = null): ?TypeMetadata
+    {
+        $reader = new TypeReader;
+
+        return $reader->getMetadata($constant->getType(), $context);
+    }
+
+    private function getVisibility(ReflectionClassConstant $constant): Visibility
+    {
+        return match (true) {
+            $constant->isPrivate() => Visibility::Private,
+            $constant->isProtected() => Visibility::Protected,
+            $constant->isPublic() => Visibility::Public,
+        };
     }
 }
