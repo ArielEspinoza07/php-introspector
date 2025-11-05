@@ -10,9 +10,11 @@ use Aurora\Reflection\VOs\DocBlocks\DocBlockMetadata;
 use Aurora\Reflection\VOs\Methods\MethodMetadata;
 use Aurora\Reflection\VOs\Modifiers\MethodModifier;
 use Aurora\Reflection\VOs\Parameters\ParameterMetadata;
+use Aurora\Reflection\VOs\Shared\DeclaringSource;
 use Aurora\Reflection\VOs\Shared\LinesMetadata;
 use Aurora\Reflection\VOs\Types\TypeMetadata;
 use ReflectionClass;
+use ReflectionException;
 use ReflectionMethod;
 
 /**
@@ -23,6 +25,8 @@ final class MethodReader
     /**
      * @param  ReflectionClass<T>  $ref
      * @return list<MethodMetadata>
+     *
+     * @throws ReflectionException
      */
     public function getMetadata(ReflectionClass $ref): array
     {
@@ -45,6 +49,7 @@ final class MethodReader
                     isStatic: $method->isStatic(),
                     visibility: $this->getVisibility($method),
                 ),
+                declaringSource: $this->getDeclaringSource($method, $ref),
                 lines: $this->getLines($method),
                 docBlock: $this->getDocBlock($method),
                 returnType: $this->getType($method, $ref),
@@ -141,5 +146,17 @@ final class MethodReader
         }
 
         return Visibility::Public;
+    }
+
+    /**
+     * @param  ReflectionClass<T>  $classRef
+     *
+     * @throws ReflectionException
+     */
+    private function getDeclaringSource(ReflectionMethod $ref, ReflectionClass $classRef): DeclaringSource
+    {
+        $reader = new DeclaringSourceReader;
+
+        return $reader->fromMethod($ref, $classRef);
     }
 }
