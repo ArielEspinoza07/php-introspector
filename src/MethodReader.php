@@ -6,7 +6,7 @@ namespace Aurora\Reflection;
 
 use Aurora\Reflection\VOs\Attributes\AttributeMetadata;
 use Aurora\Reflection\VOs\Methods\MethodMetadata;
-use Aurora\Reflection\VOs\Methods\MethodModifier;
+use Aurora\Reflection\VOs\Modifiers\MethodModifier;
 use Aurora\Reflection\VOs\Parameters\ParameterMetadata;
 use ReflectionClass;
 use ReflectionMethod;
