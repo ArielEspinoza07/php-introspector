@@ -131,6 +131,6 @@ final class DeclaringSourceReader
             $traits = array_merge($traits, $this->getAllTraits($traitReflection));
         }
 
-        return array_unique($traits);
+        return array_values(array_unique($traits));
     }
 }
