@@ -7,6 +7,7 @@ namespace Aurora\Reflection\VOs\Properties;
 use Aurora\Reflection\VOs\Attributes\AttributeMetadata;
 use Aurora\Reflection\VOs\DocBlocks\DocBlockMetadata;
 use Aurora\Reflection\VOs\Modifiers\PropertyModifier;
+use Aurora\Reflection\VOs\Types\TypeMetadata;
 use JsonSerializable;
 
 final readonly class PropertyMetadata implements JsonSerializable
@@ -20,7 +21,7 @@ final readonly class PropertyMetadata implements JsonSerializable
         public bool $hasDefaultValue,
         public mixed $defaultValue,
         public ?DocBlockMetadata $docBlock = null,
-        public ?string $type = null,
+        public ?TypeMetadata $type = null,
         public array $attributes = [],
     ) {}
 
@@ -35,7 +36,7 @@ final readonly class PropertyMetadata implements JsonSerializable
             'has_default_value' => $this->hasDefaultValue,
             'default_value' => $this->defaultValue,
             'doc_block' => $this->docBlock?->toArray(),
-            'type' => $this->type,
+            'type' => $this->type?->toArray(),
             'attributes' => $this->attributes,
         ];
     }

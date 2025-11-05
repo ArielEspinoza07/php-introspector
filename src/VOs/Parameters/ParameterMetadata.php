@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Aurora\Reflection\VOs\Parameters;
 
 use Aurora\Reflection\VOs\Attributes\AttributeMetadata;
+use Aurora\Reflection\VOs\Types\TypeMetadata;
 use JsonSerializable;
 
 final readonly class ParameterMetadata implements JsonSerializable
@@ -23,7 +24,7 @@ final readonly class ParameterMetadata implements JsonSerializable
         public bool $allowsNull,
         public bool $hasDefaultValue,
         public mixed $defaultValue,
-        public ?string $type = null,
+        public ?TypeMetadata $type = null,
         public array $attributes = [],
     ) {}
 
@@ -43,7 +44,7 @@ final readonly class ParameterMetadata implements JsonSerializable
             'allows_null' => $this->allowsNull,
             'has_default_value' => $this->hasDefaultValue,
             'default_value' => $this->defaultValue,
-            'type' => $this->type,
+            'type' => $this->type?->toArray(),
             'attributes' => $this->attributes,
         ];
     }

@@ -9,6 +9,7 @@ use Aurora\Reflection\VOs\DocBlocks\DocBlockMetadata;
 use Aurora\Reflection\VOs\Modifiers\MethodModifier;
 use Aurora\Reflection\VOs\Parameters\ParameterMetadata;
 use Aurora\Reflection\VOs\Shared\LinesMetadata;
+use Aurora\Reflection\VOs\Types\TypeMetadata;
 use JsonSerializable;
 
 final readonly class MethodMetadata implements JsonSerializable
@@ -22,7 +23,7 @@ final readonly class MethodMetadata implements JsonSerializable
         public MethodModifier $modifier,
         public ?LinesMetadata $lines = null,
         public ?DocBlockMetadata $docBlock = null,
-        public ?string $returnType = null,
+        public ?TypeMetadata $returnType = null,
         public array $parameters = [],
         public array $attributes = [],
     ) {}
@@ -37,7 +38,7 @@ final readonly class MethodMetadata implements JsonSerializable
             'modifier' => $this->modifier->toArray(),
             'lines' => $this->lines?->toArray(),
             'doc_block' => $this->docBlock?->toArray(),
-            'return_type' => $this->returnType,
+            'return_type' => $this->returnType?->toArray(),
             'parameters' => $this->parameters,
             'attributes' => $this->attributes,
         ];
