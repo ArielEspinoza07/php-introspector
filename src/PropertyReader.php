@@ -75,6 +75,10 @@ final class PropertyReader
     private function getDocBlock(ReflectionProperty $reflectionProperty): ?DocBlockMetadata
     {
         $docComment = $reflectionProperty->getDocComment();
+        if (! $docComment) {
+            return null;
+        }
+
         $reader = new DocBlockReader;
 
         return $reader->getMetadata($docComment);

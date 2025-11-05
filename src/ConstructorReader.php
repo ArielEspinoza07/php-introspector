@@ -85,6 +85,10 @@ final class ConstructorReader
     private function getDocBlock(ReflectionMethod $ref): ?DocBlockMetadata
     {
         $docComment = $ref->getDocComment();
+        if (! $docComment) {
+            return null;
+        }
+
         $reader = new DocBlockReader;
 
         return $reader->getMetadata($docComment);
