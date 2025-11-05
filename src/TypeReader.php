@@ -5,14 +5,21 @@ declare(strict_types=1);
 namespace Aurora\Reflection;
 
 use Aurora\Reflection\VOs\Types\TypeMetadata;
+use ReflectionClass;
 use ReflectionIntersectionType;
 use ReflectionNamedType;
 use ReflectionType;
 use ReflectionUnionType;
 
+/**
+ * @template T of object
+ */
 final class TypeReader
 {
-    public static function toMetadata(?ReflectionType $type): ?TypeMetadata
+    /**
+     * @param  ReflectionClass<T>|null  $context
+     */
+    public static function toMetadata(?ReflectionType $type, ?ReflectionClass $context = null): ?TypeMetadata
     {
         if ($type === null) {
             return null;
@@ -23,9 +30,13 @@ final class TypeReader
         if ($type instanceof ReflectionNamedType) {
             $name = $type->getName();
             $isSpecial = self::isSpecialType($name);
+            $resolvedName = $isSpecial && $context !== null
+                ? self::resolveSpecialType($name, $context)
+                : null;
 
             return new TypeMetadata(
                 name: $name,
+                resolvedName: $resolvedName,
                 isBuiltin: $type->isBuiltin(),
                 isNullable: $nullable && $name !== 'mixed',
                 isUnion: false,
@@ -36,7 +47,7 @@ final class TypeReader
 
         if ($type instanceof ReflectionUnionType) {
             $unionTypes = array_map(
-                fn (ReflectionType $t) => self::toMetadata($t),
+                fn (ReflectionType $t) => self::toMetadata($t, $context),
                 $type->getTypes()
             );
 
@@ -55,7 +66,7 @@ final class TypeReader
 
         if ($type instanceof ReflectionIntersectionType) {
             $intersectionTypes = array_map(
-                fn (ReflectionType $t) => self::toMetadata($t),
+                fn (ReflectionType $t) => self::toMetadata($t, $context),
                 $type->getTypes()
             );
 
@@ -81,6 +92,19 @@ final class TypeReader
     private static function isSpecialType(string $typeName): bool
     {
         return in_array($typeName, ['self', 'parent', 'static'], true);
+    }
+
+    /**
+     * Resolve special types (self, parent, static) to their actual class names
+     */
+    private static function resolveSpecialType(string $typeName, ReflectionClass $context): ?string
+    {
+        return match ($typeName) {
+            'self' => $context->getName(),
+            'parent' => $context->getParentClass()?->getName(),
+            'static' => $context->getName(), // Note: static is resolved at runtime, we return the declaring class
+            default => null,
+        };
     }
 
     private static function toString(?ReflectionType $type): ?string
