@@ -34,7 +34,7 @@ final class ConstructorReader
                 visibility: $this->getVisibility($constr)
             ),
             docBlock: $this->getDocBlock($constr),
-            parameters: $this->getParameters($constr),
+            parameters: $this->getParameters($constr, $ref),
             attributes: $this->getAttributes($constr),
         );
     }
@@ -70,9 +70,10 @@ final class ConstructorReader
     }
 
     /**
+     * @param  ReflectionClass<T>  $classRef
      * @return list<ParameterMetadata>
      */
-    private function getParameters(ReflectionMethod $ref): array
+    private function getParameters(ReflectionMethod $ref, ReflectionClass $classRef): array
     {
         $parameters = $ref->getParameters();
 
@@ -84,7 +85,7 @@ final class ConstructorReader
         $parmsMetadata = [];
 
         foreach ($parameters as $parameter) {
-            $parmsMetadata[] = $reader->getMetadata($parameter);
+            $parmsMetadata[] = $reader->getMetadata($parameter, $classRef);
         }
 
         return $parmsMetadata;

@@ -7,11 +7,18 @@ namespace Aurora\Reflection;
 use Aurora\Reflection\VOs\Attributes\AttributeMetadata;
 use Aurora\Reflection\VOs\Parameters\ParameterMetadata;
 use Aurora\Reflection\VOs\Types\TypeMetadata;
+use ReflectionClass;
 use ReflectionParameter;
 
+/**
+ * @template T of object
+ */
 final class ParameterReader
 {
-    public function getMetadata(ReflectionParameter $parameter): ParameterMetadata
+    /**
+     * @param  ReflectionClass<T>|null  $context
+     */
+    public function getMetadata(ReflectionParameter $parameter, ?ReflectionClass $context = null): ParameterMetadata
     {
         return new ParameterMetadata(
             name: $parameter->getName(),
@@ -24,14 +31,19 @@ final class ParameterReader
             allowsNull: $parameter->allowsNull(),
             hasDefaultValue: $parameter->isDefaultValueAvailable(),
             defaultValue: $parameter->isDefaultValueAvailable() ? $parameter->getDefaultValue() : null,
-            type: $this->getType($parameter),
+            type: $this->getType($parameter, $context),
             attributes: $this->getAttributes($parameter),
         );
     }
 
-    private function getType(ReflectionParameter $parameter): ?TypeMetadata
+    /**
+     * @param  ReflectionClass<T>|null  $context
+     */
+    private function getType(ReflectionParameter $parameter, ?ReflectionClass $context = null): ?TypeMetadata
     {
-        return TypeReader::toMetadata($parameter->getType());
+        $reader = new TypeReader;
+
+        return $reader->getMetadata($parameter->getType(), $context);
     }
 
     /**
