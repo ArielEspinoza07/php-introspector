@@ -11,6 +11,7 @@ final readonly class DocBlockMetadata implements JsonSerializable
     /**
      * @param  list<ParamTag>  $params
      * @param  list<ThrowsTag>  $throws
+     * @param  list<CustomTag>  $custom
      */
     public function __construct(
         public ?string $summary = null,
@@ -19,6 +20,7 @@ final readonly class DocBlockMetadata implements JsonSerializable
         public ?ReturnTag $return = null,
         public ?VarTag $var = null,
         public array $throws = [],
+        public array $custom = [],
     ) {}
 
     /**
@@ -33,6 +35,7 @@ final readonly class DocBlockMetadata implements JsonSerializable
             'return' => $this->return?->toArray(),
             'var' => $this->var?->toArray(),
             'throws' => array_map(fn (ThrowsTag $tag) => $tag->toArray(), $this->throws),
+            'custom' => array_map(fn (CustomTag $custom) => $custom->toArray(), $this->custom),
         ];
     }
 
