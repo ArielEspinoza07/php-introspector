@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Aurora\Reflection;
 
-use Aurora\Reflection\VOs\AttributeMetadata;
+use Aurora\Reflection\VOs\Attributes\AttributeMetadata;
 use Aurora\Reflection\VOs\Methods\MethodMetadata;
 use Aurora\Reflection\VOs\Methods\MethodModifier;
 use Aurora\Reflection\VOs\Parameters\ParameterMetadata;

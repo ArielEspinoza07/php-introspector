@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Aurora\Reflection;
 
-use Aurora\Reflection\VOs\AttributeMetadata;
+use Aurora\Reflection\VOs\Attributes\AttributeMetadata;
 use Aurora\Reflection\VOs\Properties\PropertyMetadata;
 use Aurora\Reflection\VOs\Properties\PropertyModifier;
 use ReflectionClass;

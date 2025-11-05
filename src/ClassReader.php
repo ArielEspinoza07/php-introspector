@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Aurora\Reflection;
 
-use Aurora\Reflection\VOs\AttributeMetadata;
+use Aurora\Reflection\VOs\Attributes\AttributeMetadata;
 use Aurora\Reflection\VOs\Classes\ClassMetadata;
 use Aurora\Reflection\VOs\Classes\ClassModifier;
 use Aurora\Reflection\VOs\Classes\LinesMetadata;
