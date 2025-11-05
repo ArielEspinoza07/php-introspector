@@ -38,7 +38,7 @@ final class Reader
                 constants: $this->getConstantsMetadata($ref),
             );
         } catch (ReflectionException $e) {
-            throw new ReflectionReadException();
+            throw new ReflectionReadException($e->getMessage(), $e->getCode(), $e);
         }
     }
 
