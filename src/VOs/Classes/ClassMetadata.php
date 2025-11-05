@@ -7,6 +7,7 @@ namespace Aurora\Reflection\VOs\Classes;
 use Aurora\Reflection\VOs\Attributes\AttributeMetadata;
 use Aurora\Reflection\VOs\DocBlocks\DocBlockMetadata;
 use Aurora\Reflection\VOs\Modifiers\ClassModifier;
+use Aurora\Reflection\VOs\Shared\ClassType;
 use Aurora\Reflection\VOs\Shared\LinesMetadata;
 use JsonSerializable;
 
@@ -22,6 +23,7 @@ final readonly class ClassMetadata implements JsonSerializable
         public string $shortName,
         public string $nameSpace,
         public string $file,
+        public ClassType $type,
         public LinesMetadata $lines,
         public ClassModifier $modifier,
         public ?DocBlockMetadata $docBlock = null,
@@ -41,6 +43,7 @@ final readonly class ClassMetadata implements JsonSerializable
             'short_name' => $this->shortName,
             'namespace' => $this->nameSpace,
             'file' => $this->file,
+            'type' => $this->type->value,
             'lines' => $this->lines->toArray(),
             'modifier' => $this->modifier->toArray(),
             'doc_block' => $this->docBlock?->toArray(),
