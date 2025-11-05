@@ -6,6 +6,7 @@ namespace Aurora\Reflection;
 
 use Aurora\Reflection\VOs\Attributes\AttributeMetadata;
 use Aurora\Reflection\VOs\Constructors\ConstructorMetadata;
+use Aurora\Reflection\VOs\DocBlocks\DocBlockMetadata;
 use Aurora\Reflection\VOs\Modifiers\ConstructorModifier;
 use Aurora\Reflection\VOs\Parameters\ParameterMetadata;
 use ReflectionClass;
@@ -33,6 +34,7 @@ final class ConstructorReader
                 isProtected: $constr->isProtected(),
                 isPrivate: $constr->isPrivate(),
             ),
+            docBlock: $this->getDocBlock($constr),
             parameters: $this->getParameters($constr),
             attributes: $this->getAttributes($constr),
         );
@@ -78,5 +80,13 @@ final class ConstructorReader
         }
 
         return $parmsMetadata;
+    }
+
+    private function getDocBlock(ReflectionMethod $ref): ?DocBlockMetadata
+    {
+        $docComment = $ref->getDocComment();
+        $reader = new DocBlockReader;
+
+        return $reader->getMetadata($docComment);
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Aurora\Reflection;
 
 use Aurora\Reflection\VOs\Attributes\AttributeMetadata;
+use Aurora\Reflection\VOs\DocBlocks\DocBlockMetadata;
 use Aurora\Reflection\VOs\Modifiers\PropertyModifier;
 use Aurora\Reflection\VOs\Properties\PropertyMetadata;
 use ReflectionClass;
@@ -41,6 +42,7 @@ final class PropertyReader
                 ),
                 hasDefaultValue: $property->hasDefaultValue(),
                 defaultValue: $property->getDefaultValue(),
+                docBlock: $this->getDocBlock($property),
                 type: TypeStringifier::toString($property->getType()),
                 attributes: $this->getAttributes($property),
             );
@@ -68,5 +70,13 @@ final class PropertyReader
         }
 
         return $attrsMetadata;
+    }
+
+    private function getDocBlock(ReflectionProperty $reflectionProperty): ?DocBlockMetadata
+    {
+        $docComment = $reflectionProperty->getDocComment();
+        $reader = new DocBlockReader;
+
+        return $reader->getMetadata($docComment);
     }
 }

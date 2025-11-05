@@ -6,6 +6,7 @@ namespace Aurora\Reflection;
 
 use Aurora\Reflection\VOs\Attributes\AttributeMetadata;
 use Aurora\Reflection\VOs\Classes\ClassMetadata;
+use Aurora\Reflection\VOs\DocBlocks\DocBlockMetadata;
 use Aurora\Reflection\VOs\Modifiers\ClassModifier;
 use Aurora\Reflection\VOs\Shared\LinesMetadata;
 use ReflectionClass;
@@ -37,6 +38,7 @@ final class ClassReader
                 isAnonymous: $ref->isAnonymous(),
                 isInstantiable: $ref->isInstantiable(),
             ),
+            docBlock: $this->getDocBlock($ref),
             extends: $this->getParent($ref),
             implements: $ref->getInterfaceNames(),
             traits: $ref->getTraitNames(),
@@ -77,5 +79,16 @@ final class ClassReader
         }
 
         return $attrsMetadata;
+    }
+
+    /**
+     * @param  ReflectionClass<T>  $ref
+     */
+    private function getDocBlock(ReflectionClass $ref): ?DocBlockMetadata
+    {
+        $docComment = $ref->getDocComment();
+        $reader = new DocBlockReader;
+
+        return $reader->getMetadata($docComment);
     }
 }

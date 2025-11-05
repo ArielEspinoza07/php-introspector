@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Aurora\Reflection;
 
 use Aurora\Reflection\VOs\Attributes\AttributeMetadata;
+use Aurora\Reflection\VOs\DocBlocks\DocBlockMetadata;
 use Aurora\Reflection\VOs\Methods\MethodMetadata;
 use Aurora\Reflection\VOs\Modifiers\MethodModifier;
 use Aurora\Reflection\VOs\Parameters\ParameterMetadata;
@@ -49,6 +50,7 @@ final class MethodReader
                     start: $method->getStartLine(),
                     end: $method->getEndLine(),
                 ),
+                docBlock: $this->getDocBlock($method),
                 returnType: TypeStringifier::toString($method->getReturnType()),
                 parameters: $this->getParameters($method),
                 attributes: $this->getAttributes($method),
@@ -96,5 +98,13 @@ final class MethodReader
         }
 
         return $attrsMetadata;
+    }
+
+    private function getDocBlock(ReflectionMethod $ref): ?DocBlockMetadata
+    {
+        $docComment = $ref->getDocComment();
+        $reader = new DocBlockReader;
+
+        return $reader->getMetadata($docComment);
     }
 }
