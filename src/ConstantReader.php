@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Aurora\Reflection;
 
 use Aurora\Reflection\VOs\Constants\ConstantMetadata;
+use Aurora\Reflection\VOs\DocBlocks\DocBlockMetadata;
 use ReflectionClass;
 use ReflectionClassConstant;
 
