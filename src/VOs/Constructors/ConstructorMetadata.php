@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Aurora\Reflection\VOs\Constructors;
 
 use Aurora\Reflection\VOs\Attributes\AttributeMetadata;
+use Aurora\Reflection\VOs\DocBlocks\DocBlockMetadata;
 use Aurora\Reflection\VOs\Modifiers\ConstructorModifier;
 use Aurora\Reflection\VOs\Parameters\ParameterMetadata;
 use JsonSerializable;
@@ -17,6 +18,7 @@ final readonly class ConstructorMetadata implements JsonSerializable
      */
     public function __construct(
         public ConstructorModifier $modifier,
+        public ?DocBlockMetadata $docBlock = null,
         public array $parameters = [],
         public array $attributes = [],
     ) {}
@@ -28,6 +30,7 @@ final readonly class ConstructorMetadata implements JsonSerializable
     {
         return [
             'modifier' => $this->modifier->toArray(),
+            'doc_block' => $this->docBlock?->toArray(),
             'parameters' => $this->parameters,
             'attributes' => $this->attributes,
         ];
