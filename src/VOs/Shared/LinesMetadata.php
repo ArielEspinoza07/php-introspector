@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Aurora\Reflection\VOs\Classes;
+namespace Aurora\Reflection\VOs\Shared;
 
 use JsonSerializable;
 
-final class LinesMetadata implements JsonSerializable
+final readonly class LinesMetadata implements JsonSerializable
 {
     public function __construct(
         public int $start,
