@@ -31,7 +31,7 @@ final class ParameterReader
 
     private function getType(ReflectionParameter $parameter): ?TypeMetadata
     {
-        return TypeStringifier::toMetadata($parameter->getType());
+        return TypeReader::toMetadata($parameter->getType());
     }
 
     /**
