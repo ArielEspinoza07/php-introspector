@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Aurora\Reflection;
 
 use Aurora\Reflection\Enums\ClassType;
+use Aurora\Reflection\Enums\SourceType;
 use Aurora\Reflection\VOs\Attributes\AttributeMetadata;
 use Aurora\Reflection\VOs\Classes\ClassMetadata;
 use Aurora\Reflection\VOs\DocBlocks\DocBlockMetadata;
 use Aurora\Reflection\VOs\Modifiers\ClassModifier;
+use Aurora\Reflection\VOs\Shared\DeclaringSource;
 use Aurora\Reflection\VOs\Shared\LinesMetadata;
 use ReflectionClass;
 
@@ -19,6 +21,7 @@ final class ClassReader
 {
     /**
      * @param  ReflectionClass<T>  $ref
+     *
      */
     public function getMetadata(ReflectionClass $ref): ClassMetadata
     {
@@ -44,8 +47,8 @@ final class ClassReader
             lines: $this->getLines($ref),
             docBlock: $this->getDocBlock($ref),
             extends: $this->getParent($ref),
-            implements: $ref->getInterfaceNames(),
-            traits: $ref->getTraitNames(),
+            implements: $this->getImplements($ref),
+            traits: $this->getTraits($ref),
             attributes: $this->getAttributes($ref),
         );
     }
@@ -127,5 +130,45 @@ final class ClassReader
         }
 
         return null;
+    }
+
+    /**
+     * @param  ReflectionClass<T>  $ref
+     * @return list<DeclaringSource>
+     *
+     */
+    private function getImplements(ReflectionClass $ref): array
+    {
+        $implements = [];
+        foreach ($ref->getInterfaces() as $interface) {
+            $implements[] = new DeclaringSource(
+                type: SourceType::Interface_,
+                className: $interface->getName(),
+                shortName: $interface->getShortName(),
+                namespace: $interface->getNamespaceName(),
+            );
+        }
+
+        return $implements;
+    }
+
+    /**
+     * @param  ReflectionClass<T>  $ref
+     * @return list<DeclaringSource>
+     *
+     */
+    private function getTraits(ReflectionClass $ref): array
+    {
+        $traits = [];
+        foreach ($ref->getTraits() as $trait) {
+            $traits[] = new DeclaringSource(
+                type: SourceType::Trait_,
+                className: $trait->getName(),
+                shortName: $trait->getShortName(),
+                namespace: $trait->getNamespaceName(),
+            );
+        }
+
+        return $traits;
     }
 }
