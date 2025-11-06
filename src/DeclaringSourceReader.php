@@ -112,6 +112,7 @@ final class DeclaringSourceReader
                     type: SourceType::Trait_,
                     className: $trait->getName(),
                     shortName: $trait->getShortName(),
+                    namespace: $trait->getNamespaceName(),
                 );
             }
 
@@ -144,6 +145,7 @@ final class DeclaringSourceReader
                     type: SourceType::Interface_,
                     className: $interface->getName(),
                     shortName: $interface->getShortName(),
+                    namespace: $interface->getNamespaceName(),
                 );
             }
 
@@ -174,6 +176,7 @@ final class DeclaringSourceReader
                 type: SourceType::Self_,
                 className: $declaringClassName,
                 shortName: $declaringClass->getShortName(),
+                namespace: $declaringClass->getNamespaceName(),
             );
         }
 
@@ -182,6 +185,7 @@ final class DeclaringSourceReader
             type: SourceType::Parent_,
             className: $declaringClassName,
             shortName: $declaringClass->getShortName(),
+            namespace: $declaringClass->getNamespaceName(),
         );
     }
 
