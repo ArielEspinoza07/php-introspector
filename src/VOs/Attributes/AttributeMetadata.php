@@ -13,6 +13,8 @@ final readonly class AttributeMetadata implements JsonSerializable
      */
     public function __construct(
         public string $name,
+        public string $fqcn,
+        public string $namespace,
         public array $arguments,
     ) {}
 
@@ -23,6 +25,8 @@ final readonly class AttributeMetadata implements JsonSerializable
     {
         return [
             'name' => $this->name,
+            'fqcn' => $this->fqcn,
+            'namespace' => $this->namespace,
             'arguments' => $this->arguments,
         ];
     }
