@@ -26,7 +26,18 @@ final class DeclaringSourceReader
      */
     public function fromProperty(ReflectionProperty $property, ReflectionClass $currentClass): DeclaringSource
     {
+        $propertyName = $property->getName();
         $declaringClass = $property->getDeclaringClass();
+
+        $traitSource = $this->findInTraits($currentClass, 'property', $propertyName);
+        if ($traitSource !== null) {
+            return $traitSource;
+        }
+
+        $interfaceSource = $this->findInInterfaces($currentClass, 'property', $propertyName);
+        if ($interfaceSource !== null) {
+            return $interfaceSource;
+        }
 
         return $this->createDeclaringSource($declaringClass, $currentClass);
     }
@@ -40,7 +51,18 @@ final class DeclaringSourceReader
      */
     public function fromMethod(ReflectionMethod $method, ReflectionClass $currentClass): DeclaringSource
     {
+        $methodName = $method->getName();
         $declaringClass = $method->getDeclaringClass();
+
+        $traitSource = $this->findInTraits($currentClass, 'method', $methodName);
+        if ($traitSource !== null) {
+            return $traitSource;
+        }
+
+        $interfaceSource = $this->findInInterfaces($currentClass, 'method', $methodName);
+        if ($interfaceSource !== null) {
+            return $interfaceSource;
+        }
 
         return $this->createDeclaringSource($declaringClass, $currentClass);
     }
@@ -54,9 +76,92 @@ final class DeclaringSourceReader
      */
     public function fromConstant(ReflectionClassConstant $constant, ReflectionClass $currentClass): DeclaringSource
     {
+        $constantName = $constant->getName();
         $declaringClass = $constant->getDeclaringClass();
 
+        $traitSource = $this->findInTraits($currentClass, 'constant', $constantName);
+        if ($traitSource !== null) {
+            return $traitSource;
+        }
+
+        $interfaceSource = $this->findInInterfaces($currentClass, 'constant', $constantName);
+        if ($interfaceSource !== null) {
+            return $interfaceSource;
+        }
+
         return $this->createDeclaringSource($declaringClass, $currentClass);
+    }
+
+    /**
+     * Find a member (property, method, constant) in the traits used by a class
+     *
+     * @param  ReflectionClass<T>  $class
+     *
+     * @throws ReflectionException
+     */
+    private function findInTraits(ReflectionClass $class, string $memberType, string $memberName): ?DeclaringSource
+    {
+        $traits = $this->getAllTraits($class);
+
+        foreach ($traits as $trait) {
+            $found = match ($memberType) {
+                'property' => $trait->hasProperty($memberName),
+                'method' => $trait->hasMethod($memberName),
+                'constant' => $trait->hasConstant($memberName),
+            };
+
+            if ($found) {
+                return new DeclaringSource(
+                    type: SourceType::Trait_,
+                    className: $trait->getName(),
+                    shortName: $trait->getShortName(),
+                );
+            }
+
+            // Check nested traits recursively
+            $nestedResult = $this->findInTraits($trait, $memberType, $memberName);
+            if ($nestedResult !== null) {
+                return $nestedResult;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Find a member (property, method, constant) in the interfaces used by a class
+     *
+     * @param  ReflectionClass<T>  $class
+     *
+     * @throws ReflectionException
+     */
+    private function findInInterfaces(ReflectionClass $class, string $memberType, string $memberName): ?DeclaringSource
+    {
+        $interfaces = $this->getAllInterfaces($class);
+
+        foreach ($interfaces as $interface) {
+            $found = match ($memberType) {
+                'property' => $interface->hasProperty($memberName),
+                'method' => $interface->hasMethod($memberName),
+                'constant' => $interface->hasConstant($memberName),
+            };
+
+            if ($found) {
+                return new DeclaringSource(
+                    type: SourceType::Interface_,
+                    className: $interface->getName(),
+                    shortName: $interface->getShortName(),
+                );
+            }
+
+            // Check nested traits recursively
+            $nestedResult = $this->findInInterfaces($interface, $memberType, $memberName);
+            if ($nestedResult !== null) {
+                return $nestedResult;
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -64,8 +169,6 @@ final class DeclaringSourceReader
      *
      * @param  ReflectionClass<T>  $declaringClass
      * @param  ReflectionClass<T>  $currentClass
-     *
-     * @throws ReflectionException
      */
     private function createDeclaringSource(ReflectionClass $declaringClass, ReflectionClass $currentClass): DeclaringSource
     {
@@ -76,26 +179,6 @@ final class DeclaringSourceReader
         if ($declaringClassName === $currentClassName) {
             return new DeclaringSource(
                 type: SourceType::Self_,
-                className: $declaringClassName,
-                shortName: $declaringClass->getShortName(),
-            );
-        }
-
-        // Check if it comes from a trait
-        $traits = $this->getAllTraits($currentClass);
-        if (in_array($declaringClassName, $traits, true)) {
-            return new DeclaringSource(
-                type: SourceType::Trait_,
-                className: $declaringClassName,
-                shortName: $declaringClass->getShortName(),
-            );
-        }
-
-        // Check if it comes from an interface
-        $interfaces = $currentClass->getInterfaceNames();
-        if (in_array($declaringClassName, $interfaces, true)) {
-            return new DeclaringSource(
-                type: SourceType::Interface_,
                 className: $declaringClassName,
                 shortName: $declaringClass->getShortName(),
             );
@@ -113,7 +196,7 @@ final class DeclaringSourceReader
      * Get all traits used by a class (including nested traits)
      *
      * @param  ReflectionClass<T>  $class
-     * @return list<string>
+     * @return list<ReflectionClass<T>>
      *
      * @throws ReflectionException
      */
@@ -121,16 +204,31 @@ final class DeclaringSourceReader
     {
         $traits = [];
 
-        // Get direct traits
-        foreach ($class->getTraitNames() as $traitName) {
-            $traits[] = $traitName;
-
-            // Get nested traits (traits used by traits)
-            /** @var ReflectionClass<T> $traitReflection */
-            $traitReflection = new ReflectionClass($traitName);
-            $traits = array_merge($traits, $this->getAllTraits($traitReflection));
+        foreach ($class->getTraits() as $trait) {
+            $traits[] = $trait;
+            $traits = array_merge($traits, $this->getAllTraits($trait));
         }
 
         return array_values(array_unique($traits));
+    }
+
+    /**
+     * Get all interfaces used by a class (including nested interfaces)
+     *
+     * @param  ReflectionClass<T>  $class
+     * @return list<ReflectionClass<T>>
+     *
+     * @throws ReflectionException
+     */
+    private function getAllInterfaces(ReflectionClass $class): array
+    {
+        $interfaces = [];
+
+        foreach ($class->getInterfaces() as $interface) {
+            $interfaces[] = $interface;
+            $interfaces = array_merge($interfaces, $this->getAllInterfaces($interface));
+        }
+
+        return array_values(array_unique($interfaces));
     }
 }
