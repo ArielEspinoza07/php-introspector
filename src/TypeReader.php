@@ -34,6 +34,10 @@ final class TypeReader
                 ? $this->resolveSpecialType($name, $context)
                 : null;
 
+            if ($resolvedName === null) {
+                $resolvedName = $name;
+            }
+
             return new TypeMetadata(
                 name: $name,
                 resolvedName: $resolvedName,
