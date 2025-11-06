@@ -8,14 +8,15 @@ use Aurora\Reflection\VOs\Attributes\AttributeMetadata;
 use Aurora\Reflection\VOs\DocBlocks\DocBlockMetadata;
 use Aurora\Reflection\VOs\Modifiers\ClassModifier;
 use Aurora\Reflection\Enums\ClassType;
+use Aurora\Reflection\VOs\Shared\DeclaringSource;
 use Aurora\Reflection\VOs\Shared\LinesMetadata;
 use JsonSerializable;
 
 final readonly class ClassMetadata implements JsonSerializable
 {
     /**
-     * @param  list<string>  $implements
-     * @param  list<string>  $traits
+     * @param  list<DeclaringSource>  $implements
+     * @param  list<DeclaringSource>  $traits
      * @param  list<AttributeMetadata>  $attributes
      */
     public function __construct(
