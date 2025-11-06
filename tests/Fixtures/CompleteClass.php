@@ -97,6 +97,7 @@ final class CompleteClass implements JsonSerializable, SerializableInterface, St
      * This constructor demonstrates promoted properties, union types,
      * attributes, and default values.
      *
+     * @param  bool  $active  promoted property
      * @param  int  $id  The unique identifier
      * @param  string  $name  The entity name
      * @param  Status  $status  The current status
@@ -105,6 +106,7 @@ final class CompleteClass implements JsonSerializable, SerializableInterface, St
      * @param  string  $secret  Sensitive parameter (password, token, etc)
      */
     public function __construct(
+        private readonly bool $active,
         int $id,
         string $name,
         Status $status = Status::Draft,
@@ -144,6 +146,7 @@ final class CompleteClass implements JsonSerializable, SerializableInterface, St
     public static function builder(): static
     {
         return new self(
+            active: true,
             id: 0,
             name: 'default',
         );
