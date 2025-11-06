@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Aurora\Reflection;
 
+use Aurora\Reflection\Enums\MemberType;
 use Aurora\Reflection\Enums\SourceType;
 use Aurora\Reflection\VOs\Shared\DeclaringSource;
 use ReflectionClass;
@@ -29,12 +30,12 @@ final class DeclaringSourceReader
         $propertyName = $property->getName();
         $declaringClass = $property->getDeclaringClass();
 
-        $traitSource = $this->findInTraits($currentClass, 'property', $propertyName);
+        $traitSource = $this->findInTraits($currentClass, MemberType::Property, $propertyName);
         if ($traitSource !== null) {
             return $traitSource;
         }
 
-        $interfaceSource = $this->findInInterfaces($currentClass, 'property', $propertyName);
+        $interfaceSource = $this->findInInterfaces($currentClass, MemberType::Property, $propertyName);
         if ($interfaceSource !== null) {
             return $interfaceSource;
         }
@@ -54,12 +55,12 @@ final class DeclaringSourceReader
         $methodName = $method->getName();
         $declaringClass = $method->getDeclaringClass();
 
-        $traitSource = $this->findInTraits($currentClass, 'method', $methodName);
+        $traitSource = $this->findInTraits($currentClass, MemberType::Method, $methodName);
         if ($traitSource !== null) {
             return $traitSource;
         }
 
-        $interfaceSource = $this->findInInterfaces($currentClass, 'method', $methodName);
+        $interfaceSource = $this->findInInterfaces($currentClass, MemberType::Method, $methodName);
         if ($interfaceSource !== null) {
             return $interfaceSource;
         }
@@ -79,12 +80,12 @@ final class DeclaringSourceReader
         $constantName = $constant->getName();
         $declaringClass = $constant->getDeclaringClass();
 
-        $traitSource = $this->findInTraits($currentClass, 'constant', $constantName);
+        $traitSource = $this->findInTraits($currentClass, MemberType::Constant, $constantName);
         if ($traitSource !== null) {
             return $traitSource;
         }
 
-        $interfaceSource = $this->findInInterfaces($currentClass, 'constant', $constantName);
+        $interfaceSource = $this->findInInterfaces($currentClass, MemberType::Constant, $constantName);
         if ($interfaceSource !== null) {
             return $interfaceSource;
         }
@@ -99,16 +100,12 @@ final class DeclaringSourceReader
      *
      * @throws ReflectionException
      */
-    private function findInTraits(ReflectionClass $class, string $memberType, string $memberName): ?DeclaringSource
+    private function findInTraits(ReflectionClass $class, MemberType $memberType, string $memberName): ?DeclaringSource
     {
         $traits = $this->getAllTraits($class);
 
         foreach ($traits as $trait) {
-            $found = match ($memberType) {
-                'property' => $trait->hasProperty($memberName),
-                'method' => $trait->hasMethod($memberName),
-                'constant' => $trait->hasConstant($memberName),
-            };
+            $found = $this->findMember($trait, $memberType, $memberName);
 
             if ($found) {
                 return new DeclaringSource(
@@ -135,16 +132,12 @@ final class DeclaringSourceReader
      *
      * @throws ReflectionException
      */
-    private function findInInterfaces(ReflectionClass $class, string $memberType, string $memberName): ?DeclaringSource
+    private function findInInterfaces(ReflectionClass $class, MemberType $memberType, string $memberName): ?DeclaringSource
     {
         $interfaces = $this->getAllInterfaces($class);
 
         foreach ($interfaces as $interface) {
-            $found = match ($memberType) {
-                'property' => $interface->hasProperty($memberName),
-                'method' => $interface->hasMethod($memberName),
-                'constant' => $interface->hasConstant($memberName),
-            };
+            $found = $this->findMember($interface, $memberType, $memberName);
 
             if ($found) {
                 return new DeclaringSource(
@@ -230,5 +223,17 @@ final class DeclaringSourceReader
         }
 
         return array_values(array_unique($interfaces));
+    }
+
+    /**
+     * @param  ReflectionClass<T>  $class
+     */
+    private function findMember(ReflectionClass $class, MemberType $memberType, string $memberName): bool
+    {
+        return match ($memberType) {
+            MemberType::Property => $class->hasProperty($memberName),
+            MemberType::Method => $class->hasMethod($memberName),
+            MemberType::Constant => $class->hasConstant($memberName),
+        };
     }
 }
