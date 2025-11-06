@@ -13,6 +13,7 @@ final readonly class DeclaringSource implements JsonSerializable
         public SourceType $type,
         public string $className,
         public string $shortName,
+        public string $namespace,
     ) {}
 
     /**
@@ -24,6 +25,7 @@ final readonly class DeclaringSource implements JsonSerializable
             'type' => $this->type->value,
             'class_name' => $this->className,
             'short_name' => $this->shortName,
+            'namespace' => $this->namespace,
         ];
     }
 
