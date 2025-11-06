@@ -11,7 +11,8 @@ final readonly class LinesMetadata implements JsonSerializable
     public function __construct(
         public int $start,
         public int $end,
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<string, int>

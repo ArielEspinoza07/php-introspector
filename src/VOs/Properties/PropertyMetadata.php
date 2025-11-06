@@ -25,7 +25,8 @@ final readonly class PropertyMetadata implements JsonSerializable
         public ?DocBlockMetadata $docBlock = null,
         public ?TypeMetadata $type = null,
         public array $attributes = [],
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<string, mixed>

@@ -24,6 +24,26 @@ trait TimestampTrait
     private ?DateTimeImmutable $updatedAt = null;
 
     /**
+     * Get the creation timestamp
+     *
+     * @return DateTimeImmutable|null The creation date
+     */
+    public function getCreatedAt(): ?DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Get the last update timestamp
+     *
+     * @return DateTimeImmutable|null The last update date
+     */
+    public function getUpdatedAt(): ?DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    /**
      * Initialize timestamps
      *
      * @return void
@@ -42,25 +62,5 @@ trait TimestampTrait
     protected function touch(): void
     {
         $this->updatedAt = new DateTimeImmutable();
-    }
-
-    /**
-     * Get the creation timestamp
-     *
-     * @return DateTimeImmutable|null The creation date
-     */
-    public function getCreatedAt(): ?DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * Get the last update timestamp
-     *
-     * @return DateTimeImmutable|null The last update date
-     */
-    public function getUpdatedAt(): ?DateTimeImmutable
-    {
-        return $this->updatedAt;
     }
 }

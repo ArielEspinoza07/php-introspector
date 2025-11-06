@@ -14,7 +14,8 @@ final readonly class MethodModifier implements JsonSerializable
         public bool $isFinal,
         public bool $isStatic,
         public Visibility $visibility,
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<string, mixed>

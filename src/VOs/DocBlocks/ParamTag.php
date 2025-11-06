@@ -12,7 +12,8 @@ final readonly class ParamTag implements JsonSerializable
         public string $name,
         public ?string $type = null,
         public ?string $description = null,
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<string, string|null>

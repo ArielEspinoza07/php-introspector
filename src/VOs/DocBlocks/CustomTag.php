@@ -11,7 +11,8 @@ final readonly class CustomTag implements JsonSerializable
     public function __construct(
         public ?string $type = null,
         public ?string $description = null,
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<string, string|null>

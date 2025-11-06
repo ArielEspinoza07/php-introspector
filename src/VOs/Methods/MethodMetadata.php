@@ -28,7 +28,8 @@ final readonly class MethodMetadata implements JsonSerializable
         public ?TypeMetadata $returnType = null,
         public array $parameters = [],
         public array $attributes = [],
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<string, mixed>

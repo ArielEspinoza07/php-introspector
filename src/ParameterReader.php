@@ -41,7 +41,7 @@ final class ParameterReader
      */
     private function getType(ReflectionParameter $parameter, ?ReflectionClass $context = null): ?TypeMetadata
     {
-        $reader = new TypeReader;
+        $reader = new TypeReader();
 
         return $reader->getMetadata($parameter->getType(), $context);
     }
@@ -57,7 +57,7 @@ final class ParameterReader
             return [];
         }
 
-        $reader = new AttributeReader;
+        $reader = new AttributeReader();
         $attrsMetadata = [];
 
         foreach ($attributes as $attribute) {

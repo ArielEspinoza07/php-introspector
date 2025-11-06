@@ -66,7 +66,7 @@ final class ConstantReader
             return null;
         }
 
-        $reader = new DocBlockReader;
+        $reader = new DocBlockReader();
 
         return $reader->getMetadata($docComment);
     }
@@ -81,7 +81,7 @@ final class ConstantReader
             return null;
         }
 
-        $reader = new TypeReader;
+        $reader = new TypeReader();
 
         return $reader->getMetadata($constant->getType(), $context);
     }
@@ -105,7 +105,7 @@ final class ConstantReader
      */
     private function getDeclaringSource(ReflectionClassConstant $constant, ReflectionClass $classRef): DeclaringSource
     {
-        $reader = new DeclaringSourceReader;
+        $reader = new DeclaringSourceReader();
 
         return $reader->fromConstant($constant, $classRef);
     }

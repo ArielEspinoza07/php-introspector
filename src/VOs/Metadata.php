@@ -24,7 +24,8 @@ final readonly class Metadata implements JsonSerializable
         public array $properties = [],
         public array $methods = [],
         public array $constants = [],
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<string, mixed>

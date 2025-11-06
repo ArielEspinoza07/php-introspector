@@ -20,7 +20,8 @@ final readonly class ConstantMetadata implements JsonSerializable
         public bool $isFinal = false,
         public ?TypeMetadata $type = null,
         public ?DocBlockMetadata $docBlock = null,
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<string, mixed>

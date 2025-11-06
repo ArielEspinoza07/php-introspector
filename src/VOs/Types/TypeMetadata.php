@@ -22,7 +22,8 @@ final readonly class TypeMetadata implements JsonSerializable
         public bool $isSpecial = false,
         public array $unionTypes = [],
         public array $intersectionTypes = [],
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<string, mixed>

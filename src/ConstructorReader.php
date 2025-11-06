@@ -62,7 +62,7 @@ final class ConstructorReader
             return [];
         }
 
-        $reader = new AttributeReader;
+        $reader = new AttributeReader();
         $attrsMetadata = [];
 
         foreach ($attributes as $attribute) {
@@ -84,7 +84,7 @@ final class ConstructorReader
             return [];
         }
 
-        $reader = new ParameterReader;
+        $reader = new ParameterReader();
         $parmsMetadata = [];
 
         foreach ($parameters as $parameter) {
@@ -101,7 +101,7 @@ final class ConstructorReader
             return null;
         }
 
-        $reader = new DocBlockReader;
+        $reader = new DocBlockReader();
 
         return $reader->getMetadata($docComment);
     }

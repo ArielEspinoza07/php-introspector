@@ -72,7 +72,7 @@ final class MethodReader
             return [];
         }
 
-        $reader = new ParameterReader;
+        $reader = new ParameterReader();
         $parmsMetadata = [];
 
         foreach ($parameters as $parameter) {
@@ -92,7 +92,7 @@ final class MethodReader
             return [];
         }
 
-        $reader = new AttributeReader;
+        $reader = new AttributeReader();
         $attrsMetadata = [];
 
         foreach ($attributes as $attribute) {
@@ -109,7 +109,7 @@ final class MethodReader
             return null;
         }
 
-        $reader = new DocBlockReader;
+        $reader = new DocBlockReader();
 
         return $reader->getMetadata($docComment);
     }
@@ -119,7 +119,7 @@ final class MethodReader
      */
     private function getType(ReflectionMethod $ref, ReflectionClass $classRef): ?TypeMetadata
     {
-        $reader = new TypeReader;
+        $reader = new TypeReader();
 
         return $reader->getMetadata($ref->getReturnType(), $classRef);
     }
@@ -155,7 +155,7 @@ final class MethodReader
      */
     private function getDeclaringSource(ReflectionMethod $ref, ReflectionClass $classRef): DeclaringSource
     {
-        $reader = new DeclaringSourceReader;
+        $reader = new DeclaringSourceReader();
 
         return $reader->fromMethod($ref, $classRef);
     }

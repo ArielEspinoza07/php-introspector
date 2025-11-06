@@ -14,7 +14,8 @@ final readonly class DeclaringSource implements JsonSerializable
         public string $className,
         public string $shortName,
         public string $namespace,
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<string, mixed>

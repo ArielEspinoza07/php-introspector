@@ -92,7 +92,7 @@ final class ClassReader
             return [];
         }
 
-        $reader = new AttributeReader;
+        $reader = new AttributeReader();
         $attrsMetadata = [];
 
         foreach ($attributes as $attribute) {
@@ -112,7 +112,7 @@ final class ClassReader
             return null;
         }
 
-        $reader = new DocBlockReader;
+        $reader = new DocBlockReader();
 
         return $reader->getMetadata($docComment);
     }

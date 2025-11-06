@@ -15,7 +15,8 @@ final readonly class ClassModifier implements JsonSerializable
         public bool $isInternal,
         public bool $isAnonymous,
         public bool $isInstantiable,
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<string, bool>

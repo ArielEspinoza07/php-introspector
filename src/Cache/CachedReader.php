@@ -42,7 +42,8 @@ final class CachedReader
         private readonly Reader $reader,
         private readonly CacheInterface $cache,
         private readonly ?int $ttl = null,
-    ) {}
+    ) {
+    }
 
     /**
      * Read class metadata with caching

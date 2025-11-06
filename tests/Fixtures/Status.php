@@ -37,6 +37,16 @@ enum Status: string
     public const DEFAULT = self::Draft;
 
     /**
+     * Get all active statuses
+     *
+     * @return array<self> Array of active statuses
+     */
+    public static function actives(): array
+    {
+        return [self::Published];
+    }
+
+    /**
      * Check if the status is active
      *
      * @return bool True if active, false otherwise
@@ -62,15 +72,5 @@ enum Status: string
             self::Archived => 'Archived',
             self::Deleted => 'Deleted',
         };
-    }
-
-    /**
-     * Get all active statuses
-     *
-     * @return array<self> Array of active statuses
-     */
-    public static function actives(): array
-    {
-        return [self::Published];
     }
 }

@@ -27,6 +27,14 @@ interface SerializableInterface
     public const FORMAT_ARRAY = 'array';
 
     /**
+     * Create an instance from array data
+     *
+     * @param array<string, mixed> $data The data to hydrate from
+     * @return static A new instance
+     */
+    public static function fromArray(array $data): static;
+
+    /**
      * Convert the object to an array
      *
      * @return array<string, mixed> The object data as array
@@ -40,12 +48,4 @@ interface SerializableInterface
      * @return string JSON representation
      */
     public function toJson(int $flags = 0): string;
-
-    /**
-     * Create an instance from array data
-     *
-     * @param array<string, mixed> $data The data to hydrate from
-     * @return static A new instance
-     */
-    public static function fromArray(array $data): static;
 }

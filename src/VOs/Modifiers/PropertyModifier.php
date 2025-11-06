@@ -15,7 +15,8 @@ final readonly class PropertyModifier implements JsonSerializable
         public bool $isDefault,
         public bool $isStatic,
         public bool $isReadonly,
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<string, mixed>

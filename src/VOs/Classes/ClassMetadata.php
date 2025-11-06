@@ -32,7 +32,8 @@ final readonly class ClassMetadata implements JsonSerializable
         public array $implements = [],
         public array $traits = [],
         public array $attributes = [],
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<string, mixed>

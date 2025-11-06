@@ -21,7 +21,8 @@ final readonly class DocBlockMetadata implements JsonSerializable
         public ?VarTag $var = null,
         public array $throws = [],
         public array $custom = [],
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<string, mixed>

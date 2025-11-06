@@ -11,7 +11,8 @@ final readonly class ConstructorModifier implements JsonSerializable
 {
     public function __construct(
         public Visibility $visibility,
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<string, mixed>

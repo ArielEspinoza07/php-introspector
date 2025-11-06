@@ -16,7 +16,8 @@ final readonly class AttributeMetadata implements JsonSerializable
         public string $fqcn,
         public string $namespace,
         public array $arguments,
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<string, mixed>

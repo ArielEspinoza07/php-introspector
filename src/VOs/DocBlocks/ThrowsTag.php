@@ -11,7 +11,8 @@ final readonly class ThrowsTag implements JsonSerializable
     public function __construct(
         public ?string $type = null,
         public ?string $description = null,
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<string, string|null>

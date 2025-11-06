@@ -66,7 +66,7 @@ final class PropertyReader
             return [];
         }
 
-        $reader = new AttributeReader;
+        $reader = new AttributeReader();
         $attrsMetadata = [];
 
         foreach ($attributes as $attribute) {
@@ -83,7 +83,7 @@ final class PropertyReader
             return null;
         }
 
-        $reader = new DocBlockReader;
+        $reader = new DocBlockReader();
 
         return $reader->getMetadata($docComment);
     }
@@ -93,7 +93,7 @@ final class PropertyReader
      */
     private function getType(ReflectionProperty $reflectionProperty, ReflectionClass $classRef): ?TypeMetadata
     {
-        $reader = new TypeReader;
+        $reader = new TypeReader();
 
         return $reader->getMetadata($reflectionProperty->getType(), $classRef);
     }
@@ -117,7 +117,7 @@ final class PropertyReader
      */
     private function getDeclaringSource(ReflectionProperty $reflectionProperty, ReflectionClass $classRef): DeclaringSource
     {
-        $reader = new DeclaringSourceReader;
+        $reader = new DeclaringSourceReader();
 
         return $reader->fromProperty($reflectionProperty, $classRef);
     }

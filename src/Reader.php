@@ -47,7 +47,7 @@ final class Reader
      */
     private function getClassMetadata(ReflectionClass $ref): ClassMetadata
     {
-        $reader = new ClassReader;
+        $reader = new ClassReader();
 
         return $reader->getMetadata($ref);
     }
@@ -57,7 +57,7 @@ final class Reader
      */
     private function getConstructorMetadata(ReflectionClass $ref): ?ConstructorMetadata
     {
-        $reader = new ConstructorReader;
+        $reader = new ConstructorReader();
 
         return $reader->getMetadata($ref);
     }
@@ -68,7 +68,7 @@ final class Reader
      */
     private function getPropertiesMetadata(ReflectionClass $ref): array
     {
-        $reader = new PropertyReader;
+        $reader = new PropertyReader();
 
         return $reader->getMetadata($ref);
     }
@@ -79,7 +79,7 @@ final class Reader
      */
     private function getMethodsMetadata(ReflectionClass $ref): array
     {
-        $reader = new MethodReader;
+        $reader = new MethodReader();
 
         return $reader->getMetadata($ref);
     }
@@ -90,7 +90,7 @@ final class Reader
      */
     private function getConstantsMetadata(ReflectionClass $ref): array
     {
-        $reader = new ConstantReader;
+        $reader = new ConstantReader();
 
         return $reader->getMetadata($ref);
     }

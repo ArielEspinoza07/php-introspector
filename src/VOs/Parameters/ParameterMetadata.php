@@ -26,7 +26,8 @@ final readonly class ParameterMetadata implements JsonSerializable
         public mixed $defaultValue,
         public ?TypeMetadata $type = null,
         public array $attributes = [],
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<string, mixed>

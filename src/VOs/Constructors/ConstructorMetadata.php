@@ -21,7 +21,8 @@ final readonly class ConstructorMetadata implements JsonSerializable
         public ?DocBlockMetadata $docBlock = null,
         public array $parameters = [],
         public array $attributes = [],
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<string, mixed>

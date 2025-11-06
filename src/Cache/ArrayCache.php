@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Aurora\Reflection\Cache;
 
 use DateInterval;
+use DateTimeImmutable;
 
 /**
  * Simple in-memory cache implementation (PSR-16 compatible)
@@ -39,7 +40,7 @@ final class ArrayCache implements CacheInterface
 
         if ($ttl !== null) {
             $seconds = $ttl instanceof DateInterval
-                ? (new \DateTime())->add($ttl)->getTimestamp() - time()
+                ? (new DateTimeImmutable())->add($ttl)->getTimestamp() - time()
                 : $ttl;
 
             $this->expirations[$key] = time() + $seconds;
