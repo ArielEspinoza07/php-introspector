@@ -1,7 +1,19 @@
 {
     "name": "aurora-php/reflection",
-    "description": "A component for reflection",
+    "description": "Modern, type-safe PHP reflection library with comprehensive metadata extraction, member source tracking, DocBlock parsing, and caching support",
+    "keywords": [
+        "reflection",
+        "metadata",
+        "docblock",
+        "attributes",
+        "php8",
+        "type-safe",
+        "class-metadata",
+        "trait-detection",
+        "introspection"
+    ],
     "type": "library",
+    "license": "MIT",
     "authors": [
         {
             "name": "Ariel Espinoza",
@@ -12,11 +24,10 @@
         "php": "^8.2"
     },
     "require-dev": {
-        "phpstan/phpstan": "^2.1",
-        "pestphp/pest": "^4.0",
         "laravel/pint": "^1.25",
+        "pestphp/pest": "^4.0",
+        "phpstan/phpstan": "^2.1"
     },
-    "license": "MIT",
     "autoload": {
         "psr-4": {
             "Aurora\\Reflection\\": "src/"
@@ -27,10 +38,33 @@
             "Aurora\\Reflection\\Tests\\": "tests/"
         }
     },
-    "minimum-stability": "dev",
+    "scripts": {
+        "test": "pest",
+        "test:coverage": "pest --coverage",
+        "lint": "pint",
+        "lint:check": "pint --test",
+        "analyse": "phpstan analyse",
+        "check": [
+            "@lint:check",
+            "@analyse",
+            "@test"
+        ]
+    },
+    "scripts-descriptions": {
+        "test": "Run the test suite",
+        "test:coverage": "Run tests with coverage report",
+        "lint": "Fix code style issues",
+        "lint:check": "Check code style without fixing",
+        "analyse": "Run static analysis",
+        "check": "Run all quality checks"
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
     "config": {
         "allow-plugins": {
             "pestphp/pest-plugin": true
-        }
+        },
+        "sort-packages": true,
+        "optimize-autoloader": true
     }
 }
