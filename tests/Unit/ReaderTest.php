@@ -71,8 +71,7 @@ test('detects promoted properties', function () {
     $reader = new Reader;
     $metadata = $reader->read(CompleteClass::class);
 
-    $activeProperty = collect($metadata->properties)
-        ->firstWhere('name', 'active');
+    $activeProperty = array_values(array_filter($metadata->properties, fn ($p) => $p->name === 'active'))[0];
 
     expect($activeProperty)->not->toBeNull()
         ->and($activeProperty->modifier->isPromoted)->toBeTrue()
@@ -83,8 +82,8 @@ test('reads property types correctly', function () {
     $reader = new Reader;
     $metadata = $reader->read(CompleteClass::class);
 
-    $idProperty = collect($metadata->properties)->firstWhere('name', 'id');
-    $descriptionProperty = collect($metadata->properties)->firstWhere('name', 'description');
+    $idProperty = array_values(array_filter($metadata->properties, fn ($p) => $p->name === 'id'))[0];
+    $descriptionProperty = array_values(array_filter($metadata->properties, fn ($p) => $p->name === 'description'))[0];
 
     expect($idProperty->type)->not->toBeNull()
         ->and($idProperty->type->name)->toBe('int')
@@ -96,8 +95,7 @@ test('reads static properties', function () {
     $reader = new Reader;
     $metadata = $reader->read(CompleteClass::class);
 
-    $instanceCount = collect($metadata->properties)
-        ->firstWhere('name', 'instanceCount');
+    $instanceCount = array_values(array_filter($metadata->properties, fn ($p) => $p->name === 'instanceCount'))[0];
 
     expect($instanceCount)->not->toBeNull()
         ->and($instanceCount->modifier->isStatic)->toBeTrue()
@@ -118,9 +116,9 @@ test('reads constant with different visibilities', function () {
     $reader = new Reader;
     $metadata = $reader->read(CompleteClass::class);
 
-    $apiVersion = collect($metadata->constants)->firstWhere('name', 'API_VERSION');
-    $maxRetries = collect($metadata->constants)->firstWhere('name', 'MAX_RETRIES');
-    $secret = collect($metadata->constants)->firstWhere('name', 'SECRET');
+    $apiVersion = array_values(array_filter($metadata->constants, fn ($c) => $c->name === 'API_VERSION'))[0];
+    $maxRetries = array_values(array_filter($metadata->constants, fn ($c) => $c->name === 'MAX_RETRIES'))[0];
+    $secret = array_values(array_filter($metadata->constants, fn ($c) => $c->name === 'SECRET'))[0];
 
     expect($apiVersion->visibility)->toBe(Visibility::Public)
         ->and($maxRetries->visibility)->toBe(Visibility::Protected)
@@ -131,7 +129,7 @@ test('reads final constants', function () {
     $reader = new Reader;
     $metadata = $reader->read(CompleteClass::class);
 
-    $debug = collect($metadata->constants)->firstWhere('name', 'DEBUG');
+    $debug = array_values(array_filter($metadata->constants, fn ($c) => $c->name === 'DEBUG'))[0];
 
     expect($debug->isFinal)->toBeTrue();
 });
@@ -150,9 +148,9 @@ test('reads method visibility', function () {
     $reader = new Reader;
     $metadata = $reader->read(CompleteClass::class);
 
-    $publicMethod = collect($metadata->methods)->firstWhere('name', 'getName');
-    $protectedMethod = collect($metadata->methods)->firstWhere('name', 'getCached');
-    $privateMethod = collect($metadata->methods)->firstWhere('name', 'clearCache');
+    $publicMethod = array_values(array_filter($metadata->methods, fn ($m) => $m->name === 'getName'))[0];
+    $protectedMethod = array_values(array_filter($metadata->methods, fn ($m) => $m->name === 'getCached'))[0];
+    $privateMethod = array_values(array_filter($metadata->methods, fn ($m) => $m->name === 'clearCache'))[0];
 
     expect($publicMethod->modifier->visibility)->toBe(Visibility::Public)
         ->and($protectedMethod->modifier->visibility)->toBe(Visibility::Protected)
@@ -163,7 +161,7 @@ test('reads static methods', function () {
     $reader = new Reader;
     $metadata = $reader->read(CompleteClass::class);
 
-    $builderMethod = collect($metadata->methods)->firstWhere('name', 'builder');
+    $builderMethod = array_values(array_filter($metadata->methods, fn ($m) => $m->name === 'builder'))[0];
 
     expect($builderMethod->modifier->isStatic)->toBeTrue();
 });
@@ -172,8 +170,8 @@ test('reads method return types', function () {
     $reader = new Reader;
     $metadata = $reader->read(CompleteClass::class);
 
-    $getIdMethod = collect($metadata->methods)->firstWhere('name', 'getId');
-    $findMethod = collect($metadata->methods)->firstWhere('name', 'find');
+    $getIdMethod = array_values(array_filter($metadata->methods, fn ($m) => $m->name === 'getId'))[0];
+    $findMethod = array_values(array_filter($metadata->methods, fn ($m) => $m->name === 'find'))[0];
 
     expect($getIdMethod->returnType)->not->toBeNull()
         ->and($getIdMethod->returnType->name)->toBe('int')
@@ -184,7 +182,7 @@ test('reads method with special return type self', function () {
     $reader = new Reader;
     $metadata = $reader->read(CompleteClass::class);
 
-    $withNameMethod = collect($metadata->methods)->firstWhere('name', 'withName');
+    $withNameMethod = array_values(array_filter($metadata->methods, fn ($m) => $m->name === 'withName'))[0];
 
     expect($withNameMethod->returnType)->not->toBeNull()
         ->and($withNameMethod->returnType->name)->toBe('self')
@@ -196,7 +194,7 @@ test('reads method with special return type static', function () {
     $reader = new Reader;
     $metadata = $reader->read(CompleteClass::class);
 
-    $builderMethod = collect($metadata->methods)->firstWhere('name', 'builder');
+    $builderMethod = array_values(array_filter($metadata->methods, fn ($m) => $m->name === 'builder'))[0];
 
     expect($builderMethod->returnType)->not->toBeNull()
         ->and($builderMethod->returnType->name)->toBe('static')
@@ -207,7 +205,7 @@ test('reads method parameters', function () {
     $reader = new Reader;
     $metadata = $reader->read(CompleteClass::class);
 
-    $withNameMethod = collect($metadata->methods)->firstWhere('name', 'withName');
+    $withNameMethod = array_values(array_filter($metadata->methods, fn ($m) => $m->name === 'withName'))[0];
 
     expect($withNameMethod->parameters)->toHaveCount(1)
         ->and($withNameMethod->parameters[0]->name)->toBe('name')
@@ -218,8 +216,8 @@ test('reads variadic parameters', function () {
     $reader = new Reader;
     $metadata = $reader->read(CompleteClass::class);
 
-    $createMethod = collect($metadata->methods)->firstWhere('name', 'create');
-    $tagsParam = collect($createMethod->parameters)->firstWhere('name', 'tags');
+    $createMethod = array_values(array_filter($metadata->methods, fn ($m) => $m->name === 'create'))[0];
+    $tagsParam = array_values(array_filter($createMethod->parameters, fn ($p) => $p->name === 'tags'))[0];
 
     expect($tagsParam->isVariadic)->toBeTrue();
 });
@@ -228,7 +226,7 @@ test('reads parameter with reference', function () {
     $reader = new Reader;
     $metadata = $reader->read(CompleteClass::class);
 
-    $incrementMethod = collect($metadata->methods)->firstWhere('name', 'increment');
+    $incrementMethod = array_values(array_filter($metadata->methods, fn ($m) => $m->name === 'increment'))[0];
     $counterParam = $incrementMethod->parameters[0];
 
     expect($counterParam->isPassedByReference)->toBeTrue();
@@ -238,7 +236,7 @@ test('reads method docblocks', function () {
     $reader = new Reader;
     $metadata = $reader->read(CompleteClass::class);
 
-    $getIdMethod = collect($metadata->methods)->firstWhere('name', 'getId');
+    $getIdMethod = array_values(array_filter($metadata->methods, fn ($m) => $m->name === 'getId'))[0];
 
     expect($getIdMethod->docBlock)->not->toBeNull()
         ->and($getIdMethod->docBlock->summary)->toBe('Get the entity ID')
@@ -277,7 +275,7 @@ test('reads abstract methods', function () {
     $reader = new Reader;
     $metadata = $reader->read(AbstractShape::class);
 
-    $areaMethod = collect($metadata->methods)->firstWhere('name', 'area');
+    $areaMethod = array_values(array_filter($metadata->methods, fn ($m) => $m->name === 'area'))[0];
 
     expect($areaMethod->modifier->isAbstract)->toBeTrue();
 });
@@ -286,7 +284,7 @@ test('reads final methods', function () {
     $reader = new Reader;
     $metadata = $reader->read(AbstractShape::class);
 
-    $getColorMethod = collect($metadata->methods)->firstWhere('name', 'getColor');
+    $getColorMethod = array_values(array_filter($metadata->methods, fn ($m) => $m->name === 'getColor'))[0];
 
     expect($getColorMethod->modifier->isFinal)->toBeTrue();
 });
@@ -303,7 +301,7 @@ test('reads inherited properties', function () {
     $reader = new Reader;
     $metadata = $reader->read(Circle::class);
 
-    $colorProperty = collect($metadata->properties)->firstWhere('name', 'color');
+    $colorProperty = array_values(array_filter($metadata->properties, fn ($p) => $p->name === 'color'))[0];
 
     expect($colorProperty)->not->toBeNull()
         ->and($colorProperty->declaringSource->type)->toBe(SourceType::Parent_);
@@ -313,7 +311,7 @@ test('reads method with parent return type', function () {
     $reader = new Reader;
     $metadata = $reader->read(Circle::class);
 
-    $getParentMethod = collect($metadata->methods)->firstWhere('name', 'getParent');
+    $getParentMethod = array_values(array_filter($metadata->methods, fn ($m) => $m->name === 'getParent'))[0];
 
     expect($getParentMethod->returnType)->not->toBeNull()
         ->and($getParentMethod->returnType->name)->toBe('parent')
