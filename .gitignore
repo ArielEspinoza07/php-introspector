@@ -20,5 +20,6 @@ Thumbs.db
 # Build artifacts
 /build
 /coverage
+/.coverage
 /dist
 *.phar
