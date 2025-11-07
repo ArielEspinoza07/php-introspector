@@ -35,22 +35,22 @@ final class CompleteClass implements JsonSerializable, SerializableInterface, St
     /**
      * Public constant - API version
      */
-    public const string API_VERSION = '2.0';
+    public const  API_VERSION = '2.0';
 
     /**
      * Final constant (PHP 8.1+)
      */
-    final public const bool DEBUG = false;
+    final public const  DEBUG = false;
 
     /**
      * Protected constant - internal use
      */
-    protected const int MAX_RETRIES = 3;
+    protected const  MAX_RETRIES = 3;
 
     /**
      * Private constant - secret key
      */
-    private const string SECRET = 'private-key';
+    private const  SECRET = 'private-key';
 
     /**
      * Public static property

@@ -94,7 +94,7 @@ test('detects constants from interface', function () {
 
     $constants = array_filter(
         $metadata->constants,
-        fn($c) => $c->declaringSource->type === SourceType::Interface_
+        fn ($c) => $c->declaringSource->type === SourceType::Interface_
     );
 
     // CompleteClass might not have interface constants, but let's test with a class that implements SerializableInterface
@@ -121,12 +121,12 @@ test('can filter properties by source type', function () {
 
     $traitProperties = array_filter(
         $metadata->properties,
-        fn($p) => $p->declaringSource->type === SourceType::Trait_
+        fn ($p) => $p->declaringSource->type === SourceType::Trait_
     );
 
     $selfProperties = array_filter(
         $metadata->properties,
-        fn($p) => $p->declaringSource->type === SourceType::Self_
+        fn ($p) => $p->declaringSource->type === SourceType::Self_
     );
 
     expect($traitProperties)->toHaveCount(2) // createdAt, updatedAt
@@ -139,12 +139,12 @@ test('can filter methods by source type', function () {
 
     $traitMethods = array_filter(
         $metadata->methods,
-        fn($m) => $m->declaringSource->type === SourceType::Trait_
+        fn ($m) => $m->declaringSource->type === SourceType::Trait_
     );
 
     $selfMethods = array_filter(
         $metadata->methods,
-        fn($m) => $m->declaringSource->type === SourceType::Self_
+        fn ($m) => $m->declaringSource->type === SourceType::Self_
     );
 
     expect($traitMethods)->toHaveCount(4) // getCreatedAt, getUpdatedAt, initializeTimestamps, touch

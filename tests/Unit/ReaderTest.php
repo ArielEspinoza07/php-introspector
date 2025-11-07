@@ -14,7 +14,7 @@ use Aurora\Reflection\Tests\Fixtures\Status;
 use Aurora\Reflection\Tests\Fixtures\TimestampTrait;
 
 test('can read complete class metadata', function () {
-    $reader = new Reader;
+    $reader = new Reader();
     $metadata = $reader->read(CompleteClass::class);
 
     expect($metadata->class->name)->toBe(CompleteClass::class)
@@ -26,7 +26,7 @@ test('can read complete class metadata', function () {
 });
 
 test('reads class with trait usage', function () {
-    $reader = new Reader;
+    $reader = new Reader();
     $metadata = $reader->read(CompleteClass::class);
 
     $traits = $metadata->class->traits;
@@ -38,7 +38,7 @@ test('reads class with trait usage', function () {
 });
 
 test('reads class with interface implementation', function () {
-    $reader = new Reader;
+    $reader = new Reader();
     $metadata = $reader->read(CompleteClass::class);
 
     $implements = $metadata->class->implements;
@@ -49,7 +49,7 @@ test('reads class with interface implementation', function () {
 });
 
 test('reads class docblock', function () {
-    $reader = new Reader;
+    $reader = new Reader();
     $metadata = $reader->read(CompleteClass::class);
 
     expect($metadata->class->docBlock)->not->toBeNull()
@@ -58,7 +58,7 @@ test('reads class docblock', function () {
 });
 
 test('reads all class properties including trait properties', function () {
-    $reader = new Reader;
+    $reader = new Reader();
     $metadata = $reader->read(CompleteClass::class);
 
     $propertyNames = array_map(fn ($p) => $p->name, $metadata->properties);
@@ -68,7 +68,7 @@ test('reads all class properties including trait properties', function () {
 });
 
 test('detects promoted properties', function () {
-    $reader = new Reader;
+    $reader = new Reader();
     $metadata = $reader->read(CompleteClass::class);
 
     $activeProperty = array_values(array_filter($metadata->properties, fn ($p) => $p->name === 'active'))[0];
@@ -79,7 +79,7 @@ test('detects promoted properties', function () {
 });
 
 test('reads property types correctly', function () {
-    $reader = new Reader;
+    $reader = new Reader();
     $metadata = $reader->read(CompleteClass::class);
 
     $idProperty = array_values(array_filter($metadata->properties, fn ($p) => $p->name === 'id'))[0];
@@ -92,7 +92,7 @@ test('reads property types correctly', function () {
 });
 
 test('reads static properties', function () {
-    $reader = new Reader;
+    $reader = new Reader();
     $metadata = $reader->read(CompleteClass::class);
 
     $instanceCount = array_values(array_filter($metadata->properties, fn ($p) => $p->name === 'instanceCount'))[0];
@@ -103,7 +103,7 @@ test('reads static properties', function () {
 });
 
 test('reads all class constants', function () {
-    $reader = new Reader;
+    $reader = new Reader();
     $metadata = $reader->read(CompleteClass::class);
 
     expect($metadata->constants)->toHaveCount(7);
@@ -113,7 +113,7 @@ test('reads all class constants', function () {
 });
 
 test('reads constant with different visibilities', function () {
-    $reader = new Reader;
+    $reader = new Reader();
     $metadata = $reader->read(CompleteClass::class);
 
     $apiVersion = array_values(array_filter($metadata->constants, fn ($c) => $c->name === 'API_VERSION'))[0];
@@ -126,7 +126,7 @@ test('reads constant with different visibilities', function () {
 });
 
 test('reads final constants', function () {
-    $reader = new Reader;
+    $reader = new Reader();
     $metadata = $reader->read(CompleteClass::class);
 
     $debug = array_values(array_filter($metadata->constants, fn ($c) => $c->name === 'DEBUG'))[0];
@@ -135,7 +135,7 @@ test('reads final constants', function () {
 });
 
 test('reads all class methods including trait methods', function () {
-    $reader = new Reader;
+    $reader = new Reader();
     $metadata = $reader->read(CompleteClass::class);
 
     $methodNames = array_map(fn ($m) => $m->name, $metadata->methods);
@@ -145,7 +145,7 @@ test('reads all class methods including trait methods', function () {
 });
 
 test('reads method visibility', function () {
-    $reader = new Reader;
+    $reader = new Reader();
     $metadata = $reader->read(CompleteClass::class);
 
     $publicMethod = array_values(array_filter($metadata->methods, fn ($m) => $m->name === 'getName'))[0];
@@ -158,7 +158,7 @@ test('reads method visibility', function () {
 });
 
 test('reads static methods', function () {
-    $reader = new Reader;
+    $reader = new Reader();
     $metadata = $reader->read(CompleteClass::class);
 
     $builderMethod = array_values(array_filter($metadata->methods, fn ($m) => $m->name === 'builder'))[0];
@@ -167,7 +167,7 @@ test('reads static methods', function () {
 });
 
 test('reads method return types', function () {
-    $reader = new Reader;
+    $reader = new Reader();
     $metadata = $reader->read(CompleteClass::class);
 
     $getIdMethod = array_values(array_filter($metadata->methods, fn ($m) => $m->name === 'getId'))[0];
@@ -179,7 +179,7 @@ test('reads method return types', function () {
 });
 
 test('reads method with special return type self', function () {
-    $reader = new Reader;
+    $reader = new Reader();
     $metadata = $reader->read(CompleteClass::class);
 
     $withNameMethod = array_values(array_filter($metadata->methods, fn ($m) => $m->name === 'withName'))[0];
@@ -191,7 +191,7 @@ test('reads method with special return type self', function () {
 });
 
 test('reads method with special return type static', function () {
-    $reader = new Reader;
+    $reader = new Reader();
     $metadata = $reader->read(CompleteClass::class);
 
     $builderMethod = array_values(array_filter($metadata->methods, fn ($m) => $m->name === 'builder'))[0];
@@ -202,7 +202,7 @@ test('reads method with special return type static', function () {
 });
 
 test('reads method parameters', function () {
-    $reader = new Reader;
+    $reader = new Reader();
     $metadata = $reader->read(CompleteClass::class);
 
     $withNameMethod = array_values(array_filter($metadata->methods, fn ($m) => $m->name === 'withName'))[0];
@@ -213,7 +213,7 @@ test('reads method parameters', function () {
 });
 
 test('reads variadic parameters', function () {
-    $reader = new Reader;
+    $reader = new Reader();
     $metadata = $reader->read(CompleteClass::class);
 
     $createMethod = array_values(array_filter($metadata->methods, fn ($m) => $m->name === 'create'))[0];
@@ -223,7 +223,7 @@ test('reads variadic parameters', function () {
 });
 
 test('reads parameter with reference', function () {
-    $reader = new Reader;
+    $reader = new Reader();
     $metadata = $reader->read(CompleteClass::class);
 
     $incrementMethod = array_values(array_filter($metadata->methods, fn ($m) => $m->name === 'increment'))[0];
@@ -233,7 +233,7 @@ test('reads parameter with reference', function () {
 });
 
 test('reads method docblocks', function () {
-    $reader = new Reader;
+    $reader = new Reader();
     $metadata = $reader->read(CompleteClass::class);
 
     $getIdMethod = array_values(array_filter($metadata->methods, fn ($m) => $m->name === 'getId'))[0];
@@ -245,7 +245,7 @@ test('reads method docblocks', function () {
 });
 
 test('reads constructor metadata', function () {
-    $reader = new Reader;
+    $reader = new Reader();
     $metadata = $reader->read(CompleteClass::class);
 
     expect($metadata->constructor)->not->toBeNull()
@@ -254,7 +254,7 @@ test('reads constructor metadata', function () {
 });
 
 test('reads constructor promoted parameters', function () {
-    $reader = new Reader;
+    $reader = new Reader();
     $metadata = $reader->read(CompleteClass::class);
 
     $activeParam = $metadata->constructor->parameters[0];
@@ -264,7 +264,7 @@ test('reads constructor promoted parameters', function () {
 });
 
 test('reads abstract class', function () {
-    $reader = new Reader;
+    $reader = new Reader();
     $metadata = $reader->read(AbstractShape::class);
 
     expect($metadata->class->type)->toBe(ClassType::Class_)
@@ -272,7 +272,7 @@ test('reads abstract class', function () {
 });
 
 test('reads abstract methods', function () {
-    $reader = new Reader;
+    $reader = new Reader();
     $metadata = $reader->read(AbstractShape::class);
 
     $areaMethod = array_values(array_filter($metadata->methods, fn ($m) => $m->name === 'area'))[0];
@@ -281,7 +281,7 @@ test('reads abstract methods', function () {
 });
 
 test('reads final methods', function () {
-    $reader = new Reader;
+    $reader = new Reader();
     $metadata = $reader->read(AbstractShape::class);
 
     $getColorMethod = array_values(array_filter($metadata->methods, fn ($m) => $m->name === 'getColor'))[0];
@@ -290,7 +290,7 @@ test('reads final methods', function () {
 });
 
 test('reads class with parent', function () {
-    $reader = new Reader;
+    $reader = new Reader();
     $metadata = $reader->read(Circle::class);
 
     expect($metadata->class->extends)->not->toBeNull()
@@ -298,7 +298,7 @@ test('reads class with parent', function () {
 });
 
 test('reads inherited properties', function () {
-    $reader = new Reader;
+    $reader = new Reader();
     $metadata = $reader->read(Circle::class);
 
     $colorProperty = array_values(array_filter($metadata->properties, fn ($p) => $p->name === 'color'))[0];
@@ -308,7 +308,7 @@ test('reads inherited properties', function () {
 });
 
 test('reads method with parent return type', function () {
-    $reader = new Reader;
+    $reader = new Reader();
     $metadata = $reader->read(Circle::class);
 
     $getParentMethod = array_values(array_filter($metadata->methods, fn ($m) => $m->name === 'getParent'))[0];
@@ -319,7 +319,7 @@ test('reads method with parent return type', function () {
 });
 
 test('reads enum metadata', function () {
-    $reader = new Reader;
+    $reader = new Reader();
     $metadata = $reader->read(Status::class);
 
     expect($metadata->class->type)->toBe(ClassType::Enum_)
@@ -327,7 +327,7 @@ test('reads enum metadata', function () {
 });
 
 test('reads interface metadata', function () {
-    $reader = new Reader;
+    $reader = new Reader();
     $metadata = $reader->read(SerializableInterface::class);
 
     expect($metadata->class->type)->toBe(ClassType::Interface_)
@@ -335,7 +335,7 @@ test('reads interface metadata', function () {
 });
 
 test('reads interface constants', function () {
-    $reader = new Reader;
+    $reader = new Reader();
     $metadata = $reader->read(SerializableInterface::class);
 
     expect($metadata->constants)->toHaveCount(3);
@@ -345,7 +345,7 @@ test('reads interface constants', function () {
 });
 
 test('reads interface methods', function () {
-    $reader = new Reader;
+    $reader = new Reader();
     $metadata = $reader->read(SerializableInterface::class);
 
     expect($metadata->methods)->toHaveCount(3);
@@ -355,7 +355,7 @@ test('reads interface methods', function () {
 });
 
 test('reads trait metadata', function () {
-    $reader = new Reader;
+    $reader = new Reader();
     $metadata = $reader->read(TimestampTrait::class);
 
     expect($metadata->class->type)->toBe(ClassType::Trait_)
@@ -363,7 +363,7 @@ test('reads trait metadata', function () {
 });
 
 test('metadata is json serializable', function () {
-    $reader = new Reader;
+    $reader = new Reader();
     $metadata = $reader->read(CompleteClass::class);
 
     $json = json_encode($metadata);
@@ -374,7 +374,7 @@ test('metadata is json serializable', function () {
 });
 
 test('metadata can be converted to array', function () {
-    $reader = new Reader;
+    $reader = new Reader();
     $metadata = $reader->read(CompleteClass::class);
 
     $array = $metadata->toArray();
