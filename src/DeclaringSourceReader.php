@@ -102,24 +102,24 @@ final class DeclaringSourceReader
      */
     private function findInTraits(ReflectionClass $class, MemberType $memberType, string $memberName): ?DeclaringSource
     {
-        $traits = $this->getAllTraits($class);
+        // Get only direct traits (not nested)
+        $traits = $class->getTraits();
 
         foreach ($traits as $trait) {
-            $found = $this->findMember($trait, $memberType, $memberName);
+            // DEPTH-FIRST: Check nested traits FIRST before checking current trait
+            $nestedResult = $this->findInTraits($trait, $memberType, $memberName);
+            if ($nestedResult !== null) {
+                return $nestedResult;
+            }
 
-            if ($found) {
+            // Then check if THIS specific trait DECLARES the member (not just has it)
+            if ($this->isDeclaredDirectlyInClass($trait, $memberType, $memberName)) {
                 return new DeclaringSource(
                     type: SourceType::Trait_,
                     className: $trait->getName(),
                     shortName: $trait->getShortName(),
                     namespace: $trait->getNamespaceName(),
                 );
-            }
-
-            // Check nested traits recursively
-            $nestedResult = $this->findInTraits($trait, $memberType, $memberName);
-            if ($nestedResult !== null) {
-                return $nestedResult;
             }
         }
 
@@ -135,24 +135,21 @@ final class DeclaringSourceReader
      */
     private function findInInterfaces(ReflectionClass $class, MemberType $memberType, string $memberName): ?DeclaringSource
     {
-        $interfaces = $this->getAllInterfaces($class);
+        $interfaces = $class->getInterfaces();
 
         foreach ($interfaces as $interface) {
-            $found = $this->findMember($interface, $memberType, $memberName);
+            $nestedResult = $this->findInInterfaces($interface, $memberType, $memberName);
+            if ($nestedResult !== null) {
+                return $nestedResult;
+            }
 
-            if ($found) {
+            if ($this->isDeclaredDirectlyInClass($interface, $memberType, $memberName)) {
                 return new DeclaringSource(
                     type: SourceType::Interface_,
                     className: $interface->getName(),
                     shortName: $interface->getShortName(),
                     namespace: $interface->getNamespaceName(),
                 );
-            }
-
-            // Check nested traits recursively
-            $nestedResult = $this->findInInterfaces($interface, $memberType, $memberName);
-            if ($nestedResult !== null) {
-                return $nestedResult;
             }
         }
 
@@ -190,54 +187,24 @@ final class DeclaringSourceReader
     }
 
     /**
-     * Get all traits used by a class (including nested traits)
+     * Check if a member is declared DIRECTLY in a class/trait (not inherited)
      *
      * @param  ReflectionClass<T>  $class
-     * @return list<ReflectionClass<T>>
-     *
-     * @throws ReflectionException
      */
-    private function getAllTraits(ReflectionClass $class): array
+    private function isDeclaredDirectlyInClass(ReflectionClass $class, MemberType $memberType, string $memberName): bool
     {
-        $traits = [];
+        try {
+            $declaringClass = match ($memberType) {
+                MemberType::Property => $class->getProperty($memberName)->getDeclaringClass(),
+                MemberType::Method => $class->getMethod($memberName)->getDeclaringClass(),
+                MemberType::Constant => (new ReflectionClassConstant($class->getName(), $memberName))->getDeclaringClass(),
+            };
 
-        foreach ($class->getTraits() as $trait) {
-            $traits[] = $trait;
-            $traits = array_merge($traits, $this->getAllTraits($trait));
+            // Return true only if THIS class/trait is the one that declares the member
+            return $declaringClass->getName() === $class->getName();
+        } catch (ReflectionException) {
+            // Member doesn't exist in this class/trait
+            return false;
         }
-
-        return array_values(array_unique($traits));
-    }
-
-    /**
-     * Get all interfaces used by a class (including nested interfaces)
-     *
-     * @param  ReflectionClass<T>  $class
-     * @return list<ReflectionClass<T>>
-     *
-     * @throws ReflectionException
-     */
-    private function getAllInterfaces(ReflectionClass $class): array
-    {
-        $interfaces = [];
-
-        foreach ($class->getInterfaces() as $interface) {
-            $interfaces[] = $interface;
-            $interfaces = array_merge($interfaces, $this->getAllInterfaces($interface));
-        }
-
-        return array_values(array_unique($interfaces));
-    }
-
-    /**
-     * @param  ReflectionClass<T>  $class
-     */
-    private function findMember(ReflectionClass $class, MemberType $memberType, string $memberName): bool
-    {
-        return match ($memberType) {
-            MemberType::Property => $class->hasProperty($memberName),
-            MemberType::Method => $class->hasMethod($memberName),
-            MemberType::Constant => $class->hasConstant($memberName),
-        };
     }
 }
