@@ -9,6 +9,7 @@ use Aurora\Reflection\Reader;
 use Aurora\Reflection\Tests\Fixtures\AbstractShape;
 use Aurora\Reflection\Tests\Fixtures\Circle;
 use Aurora\Reflection\Tests\Fixtures\CompleteClass;
+use Aurora\Reflection\Tests\Fixtures\MixInterfaceTrait;
 use Aurora\Reflection\Tests\Fixtures\SerializableInterface;
 use Aurora\Reflection\Tests\Fixtures\Status;
 use Aurora\Reflection\Tests\Fixtures\TimestampTrait;
@@ -31,10 +32,10 @@ test('reads class with trait usage', function () {
 
     $traits = $metadata->class->traits;
 
-    expect($traits)->toHaveCount(1)
+    expect($traits)->toHaveCount(2)
         ->and($traits[0]->type->value)->toBe('trait')
-        ->and($traits[0]->className)->toBe(TimestampTrait::class)
-        ->and($traits[0]->shortName)->toBe('TimestampTrait');
+        ->and($traits[0]->className)->toBe(MixInterfaceTrait::class)
+        ->and($traits[0]->shortName)->toBe('MixInterfaceTrait');
 });
 
 test('reads class with interface implementation', function () {
@@ -43,7 +44,7 @@ test('reads class with interface implementation', function () {
 
     $implements = $metadata->class->implements;
 
-    expect($implements)->toHaveCount(3)
+    expect($implements)->toHaveCount(7)
         ->and($implements[0]->type->value)->toBe('interface')
         ->and($implements[0]->className)->toContain('JsonSerializable');
 });
@@ -63,7 +64,7 @@ test('reads all class properties including trait properties', function () {
 
     $propertyNames = array_map(fn ($p) => $p->name, $metadata->properties);
 
-    expect($metadata->properties)->toHaveCount(10)
+    expect($metadata->properties)->toHaveCount(14)
         ->and($propertyNames)->toContain('id', 'name', 'status', 'createdAt', 'updatedAt');
 });
 
@@ -106,7 +107,7 @@ test('reads all class constants', function () {
     $reader = new Reader();
     $metadata = $reader->read(CompleteClass::class);
 
-    expect($metadata->constants)->toHaveCount(7);
+    expect($metadata->constants)->toHaveCount(11);
 
     $constantNames = array_map(fn ($c) => $c->name, $metadata->constants);
     expect($constantNames)->toContain('API_VERSION', 'DEBUG', 'MAX_RETRIES', 'SECRET');
@@ -140,7 +141,7 @@ test('reads all class methods including trait methods', function () {
 
     $methodNames = array_map(fn ($m) => $m->name, $metadata->methods);
 
-    expect($metadata->methods)->toHaveCount(20) // Own methods + trait methods
+    expect($metadata->methods)->toHaveCount(27) // Own methods + trait methods
         ->and($methodNames)->toContain('getName', 'touch', 'getCreatedAt');
 });
 

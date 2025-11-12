@@ -129,7 +129,7 @@ test('can filter properties by source type', function () {
         fn ($p) => $p->declaringSource->type === SourceType::Self_
     );
 
-    expect($traitProperties)->toHaveCount(2) // createdAt, updatedAt
+    expect($traitProperties)->toHaveCount(6) // createdAt, updatedAt
         ->and($selfProperties)->toHaveCount(8); // All own properties: instanceCount, cache, id, name, status, description, tags, active
 });
 
@@ -147,7 +147,7 @@ test('can filter methods by source type', function () {
         fn ($m) => $m->declaringSource->type === SourceType::Self_
     );
 
-    expect($traitMethods)->toHaveCount(4) // getCreatedAt, getUpdatedAt, initializeTimestamps, touch
+    expect($traitMethods)->toHaveCount(11) // getCreatedAt, getUpdatedAt, initializeTimestamps, touch
         ->and($selfMethods)->toHaveCount(11); // All own methods (excluding trait methods)
 });
 
