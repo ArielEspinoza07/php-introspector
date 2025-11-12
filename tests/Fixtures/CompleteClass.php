@@ -28,29 +28,30 @@ use Stringable;
  *
  * @version 1.0.0
  */
-final class CompleteClass implements JsonSerializable, SerializableInterface, Stringable
+final class CompleteClass implements JsonSerializable, NestedInterfaces, SerializableInterface, Stringable
 {
-    use TimestampTrait;
+    use MixInterfaceTrait;
+    use NestedTraits;
 
     /**
      * Public constant - API version
      */
-    public const  API_VERSION = '2.0';
+    public const API_VERSION = '2.0';
 
     /**
      * Final constant (PHP 8.1+)
      */
-    final public const  DEBUG = false;
+    final public const DEBUG = false;
 
     /**
      * Protected constant - internal use
      */
-    protected const  MAX_RETRIES = 3;
+    protected const MAX_RETRIES = 3;
 
     /**
      * Private constant - secret key
      */
-    private const  SECRET = 'private-key';
+    private const SECRET = 'private-key';
 
     /**
      * Public static property
