@@ -1,4 +1,4 @@
-# Aurora Reflection
+# PHP Introspector
 
 A modern, type-safe PHP reflection library that extracts comprehensive metadata from classes, including properties, methods, constants, DocBlocks, and more.
 
@@ -20,13 +20,13 @@ A modern, type-safe PHP reflection library that extracts comprehensive metadata 
 ## Installation
 
 ```bash
-composer require aurora-php/reflection
+composer require arielespinoza07/php-introspector
 ```
 
 ## Quick Start
 
 ```php
-use Aurora\Reflection\Reader;
+use Introspector\Reader;
 
 $reader = new Reader();
 $metadata = $reader->read(MyClass::class);
@@ -82,7 +82,7 @@ foreach ($metadata->constants as $constant) {
 **NEW FEATURE** - Track the origin of every class member:
 
 ```php
-use Aurora\Reflection\Enums\SourceType;
+use Introspector\Enums\SourceType;
 
 foreach ($metadata->properties as $property) {
     match ($property->declaringSource->type) {
@@ -98,11 +98,11 @@ foreach ($metadata->properties as $property) {
 
 ## Performance
 
-Aurora Reflection is designed for production use with built-in caching:
+PHP Introspector is designed for production use with built-in caching:
 
 ```php
-use Aurora\Reflection\Cache\CachedReader;
-use Aurora\Reflection\Cache\ArrayCache;
+use Introspector\Cache\CachedReader;
+use Introspector\Cache\ArrayCache;
 
 $cache = new ArrayCache();
 $cachedReader = new CachedReader(new Reader(), $cache);
@@ -183,8 +183,8 @@ MIT License. See [LICENSE](LICENSE) for details.
 
 ## Credits
 
-Built with ❤️ by the Aurora Team.
+Built with ❤️ by [Ariel Espinoza](https://github.com/ArielEspinoza07).
 
 ---
 
-**Need help?** [Open an issue](https://github.com/aurora-php/reflection/issues) | [Read the docs](docs/)
+**Need help?** [Open an issue](https://github.com/ArielEspinoza07/php-introspector/issues) | [Read the docs](docs/)
