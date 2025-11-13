@@ -1,6 +1,6 @@
 # Type System
 
-Aurora Reflection provides comprehensive support for PHP's type system, including union types, intersection types, nullable types, and special types.
+PHP Introspector provides comprehensive support for PHP's type system, including union types, intersection types, nullable types, and special types.
 
 ## Type Metadata
 

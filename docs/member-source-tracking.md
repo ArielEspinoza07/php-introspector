@@ -4,7 +4,7 @@
 
 ## Overview
 
-When a class uses traits, implements interfaces, or extends a parent class, it can be difficult to know where each member originates. Aurora Reflection automatically tracks this information for you.
+When a class uses traits, implements interfaces, or extends a parent class, it can be difficult to know where each member originates. PHP Introspector automatically tracks this information for you.
 
 Every `PropertyMetadata`, `MethodMetadata`, and `ConstantMetadata` includes a `declaringSource` property that tells you exactly where that member was declared.
 
@@ -13,7 +13,7 @@ Every `PropertyMetadata`, `MethodMetadata`, and `ConstantMetadata` includes a `d
 Members can originate from four different sources:
 
 ```php
-use Aurora\Reflection\Enums\SourceType;
+use Introspector\Enums\SourceType;
 
 SourceType::Self_       // Declared in the current class
 SourceType::Parent_     // Inherited from a parent class
@@ -39,8 +39,8 @@ DeclaringSource {
 ### Check Property Origin
 
 ```php
-use Aurora\Reflection\Reader;
-use Aurora\Reflection\Enums\SourceType;
+use Introspector\Reader;
+use Introspector\Enums\SourceType;
 
 $reader = new Reader();
 $metadata = $reader->read(User::class);
@@ -135,7 +135,7 @@ echo "Interface methods: " . count($grouped['interface']);
 ### Example 3: List Trait Members
 
 ```php
-use Aurora\Reflection\Enums\SourceType;
+use Introspector\Enums\SourceType;
 
 $reader = new Reader();
 $metadata = $reader->read(User::class);
@@ -197,8 +197,8 @@ if (usesTimestampTrait($metadata)) {
 Generate documentation showing member origins:
 
 ```php
-use Aurora\Reflection\Reader;
-use Aurora\Reflection\Enums\SourceType;
+use Introspector\Reader;
+use Introspector\Enums\SourceType;
 
 function generateMemberDocs(string $className): string {
     $reader = new Reader();
@@ -243,8 +243,8 @@ echo generateMemberDocs(User::class);
 ```php
 <?php
 
-use Aurora\Reflection\Reader;
-use Aurora\Reflection\Enums\SourceType;
+use Introspector\Reader;
+use Introspector\Enums\SourceType;
 
 trait TimestampTrait
 {

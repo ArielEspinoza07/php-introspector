@@ -17,7 +17,7 @@ class Config
 Access:
 
 ```php
-use Aurora\Reflection\Reader;
+use Introspector\Reader;
 
 $reader = new Reader();
 $metadata = $reader->read(Config::class);

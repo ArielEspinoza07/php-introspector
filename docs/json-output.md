@@ -5,7 +5,7 @@ All metadata objects are JSON serializable for easy export and analysis.
 ## Basic Usage
 
 ```php
-use Aurora\Reflection\Reader;
+use Introspector\Reader;
 
 $reader = new Reader();
 $metadata = $reader->read(User::class);

@@ -7,7 +7,7 @@
 ## Install via Composer
 
 ```bash
-composer require aurora-php/reflection
+composer require arielespinoza07/php-introspector
 ```
 
 ## Quick Start
@@ -17,7 +17,7 @@ composer require aurora-php/reflection
 
 require_once 'vendor/autoload.php';
 
-use Aurora\Reflection\Reader;
+use Introspector\Reader;
 
 $reader = new Reader();
 $metadata = $reader->read(MyClass::class);

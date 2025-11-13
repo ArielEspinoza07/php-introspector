@@ -1,6 +1,6 @@
 # Best Practices
 
-Guidelines for using Aurora Reflection effectively and efficiently.
+Guidelines for using PHP Introspector effectively and efficiently.
 
 ## 1. Always Use Caching in Production
 
@@ -97,7 +97,7 @@ if ($property->modifier->visibility->value === 'public') {
 
 **✅ Good:**
 ```php
-use Aurora\Reflection\Enums\Visibility;
+use Introspector\Enums\Visibility;
 
 if ($property->modifier->visibility === Visibility::Public) {
     // Type-safe enum comparison
@@ -132,7 +132,7 @@ $publicMethods = array_filter(
 
 **✅ Good:**
 ```php
-use Aurora\Reflection\Enums\SourceType;
+use Introspector\Enums\SourceType;
 
 $traitMethods = array_filter(
     $metadata->methods,

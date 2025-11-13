@@ -1,6 +1,6 @@
 # Traits and Inheritance
 
-Aurora Reflection automatically handles traits, inheritance, and interface implementation.
+PHP Introspector automatically handles traits, inheritance, and interface implementation.
 
 ## Traits
 
@@ -31,7 +31,7 @@ class User
 Access trait information:
 
 ```php
-use Aurora\Reflection\Reader;
+use Introspector\Reader;
 
 $reader = new Reader();
 $metadata = $reader->read(User::class);
@@ -59,7 +59,7 @@ foreach ($metadata->methods as $method) {
 Use `declaringSource` to know which members come from traits:
 
 ```php
-use Aurora\Reflection\Enums\SourceType;
+use Introspector\Enums\SourceType;
 
 foreach ($metadata->properties as $property) {
     if ($property->declaringSource->type === SourceType::Trait_) {

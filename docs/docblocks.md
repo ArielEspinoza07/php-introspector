@@ -1,6 +1,6 @@
 # DocBlock Parsing
 
-Aurora Reflection provides comprehensive DocBlock parsing for classes, properties, methods, and constants.
+PHP Introspector provides comprehensive DocBlock parsing for classes, properties, methods, and constants.
 
 ## Overview
 
@@ -36,7 +36,7 @@ public function create(string $name, string $email): self
 ### Method DocBlocks
 
 ```php
-use Aurora\Reflection\Reader;
+use Introspector\Reader;
 
 $reader = new Reader();
 $metadata = $reader->read(User::class);
@@ -291,7 +291,7 @@ foreach ($method->docBlock->custom as $tag) {
 ### Example 1: Generate API Documentation
 
 ```php
-use Aurora\Reflection\Reader;
+use Introspector\Reader;
 
 function generateApiDocs(string $className): string
 {

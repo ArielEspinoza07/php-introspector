@@ -18,9 +18,9 @@ Reflection operations are slow because they:
 The simplest cache for single requests:
 
 ```php
-use Aurora\Reflection\Reader;
-use Aurora\Reflection\Cache\CachedReader;
-use Aurora\Reflection\Cache\ArrayCache;
+use Introspector\Reader;
+use Introspector\Cache\CachedReader;
+use Introspector\Cache\ArrayCache;
 
 $cache = new ArrayCache();
 $cachedReader = new CachedReader(new Reader(), $cache);
@@ -43,8 +43,8 @@ Use any PSR-16 cache implementation for persistent caching:
 ```php
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Psr16Cache;
-use Aurora\Reflection\Cache\CachedReader;
-use Aurora\Reflection\Reader;
+use Introspector\Cache\CachedReader;
+use Introspector\Reader;
 
 $adapter = new FilesystemAdapter();
 $psr16Cache = new Psr16Cache($adapter);
@@ -58,8 +58,8 @@ $metadata = $cachedReader->read(User::class);
 
 ```php
 use Illuminate\Support\Facades\Cache;
-use Aurora\Reflection\Cache\CachedReader;
-use Aurora\Reflection\Reader;
+use Introspector\Cache\CachedReader;
+use Introspector\Reader;
 
 $cachedReader = new CachedReader(
     new Reader(),
@@ -111,8 +111,8 @@ $cachedReader->flush();
 Pre-populate the cache during deployment:
 
 ```php
-use Aurora\Reflection\Reader;
-use Aurora\Reflection\Cache\CachedReader;
+use Introspector\Reader;
+use Introspector\Cache\CachedReader;
 
 function warmCache(CachedReader $reader, array $classes): void
 {
@@ -143,8 +143,8 @@ warmCache($cachedReader, $classes);
 ```php
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Psr16Cache;
-use Aurora\Reflection\Cache\CachedReader;
-use Aurora\Reflection\Reader;
+use Introspector\Cache\CachedReader;
+use Introspector\Reader;
 
 // Store cache in var/cache/reflection
 $adapter = new FilesystemAdapter(
@@ -164,8 +164,8 @@ return $reader;
 ```php
 use Symfony\Component\Cache\Adapter\RedisAdapter;
 use Symfony\Component\Cache\Psr16Cache;
-use Aurora\Reflection\Cache\CachedReader;
-use Aurora\Reflection\Reader;
+use Introspector\Cache\CachedReader;
+use Introspector\Reader;
 
 $redis = new \Redis();
 $redis->connect('127.0.0.1', 6379);
@@ -183,8 +183,8 @@ return $reader;
 ```php
 use Symfony\Component\Cache\Adapter\ApcuAdapter;
 use Symfony\Component\Cache\Psr16Cache;
-use Aurora\Reflection\Cache\CachedReader;
-use Aurora\Reflection\Reader;
+use Introspector\Cache\CachedReader;
+use Introspector\Reader;
 
 $adapter = new ApcuAdapter(namespace: 'reflection');
 $psr16Cache = new Psr16Cache($adapter);
@@ -197,9 +197,9 @@ return $reader;
 ## Environment-Based Caching
 
 ```php
-use Aurora\Reflection\Reader;
-use Aurora\Reflection\Cache\CachedReader;
-use Aurora\Reflection\Cache\ArrayCache;
+use Introspector\Reader;
+use Introspector\Cache\CachedReader;
+use Introspector\Cache\ArrayCache;
 
 function createReader(string $environment): Reader|CachedReader
 {
@@ -277,9 +277,9 @@ function getCachedMetadata(
 Real-world performance comparison:
 
 ```php
-use Aurora\Reflection\Reader;
-use Aurora\Reflection\Cache\CachedReader;
-use Aurora\Reflection\Cache\ArrayCache;
+use Introspector\Reader;
+use Introspector\Cache\CachedReader;
+use Introspector\Cache\ArrayCache;
 
 $reader = new Reader();
 $cachedReader = new CachedReader($reader, new ArrayCache());

@@ -19,7 +19,7 @@ Metadata {
 The library distinguishes between different class types using the `ClassType` enum:
 
 ```php
-use Aurora\Reflection\Enums\ClassType;
+use Introspector\Enums\ClassType;
 
 match ($metadata->class->type) {
     ClassType::Class_ => 'Regular class',
@@ -33,8 +33,8 @@ match ($metadata->class->type) {
 ### Example
 
 ```php
-use Aurora\Reflection\Reader;
-use Aurora\Reflection\Enums\ClassType;
+use Introspector\Reader;
+use Introspector\Enums\ClassType;
 
 $reader = new Reader();
 
@@ -55,7 +55,7 @@ if ($metadata->class->type === ClassType::Trait_) {
 All class members (properties, methods, constants) use the `Visibility` enum:
 
 ```php
-use Aurora\Reflection\Enums\Visibility;
+use Introspector\Enums\Visibility;
 
 // Check property visibility
 foreach ($metadata->properties as $property) {
@@ -235,7 +235,7 @@ if ($constructor !== null) {
 All metadata objects implement `JsonSerializable`:
 
 ```php
-use Aurora\Reflection\Reader;
+use Introspector\Reader;
 
 $reader = new Reader();
 $metadata = $reader->read(User::class);

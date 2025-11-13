@@ -4,7 +4,7 @@ PHP 8+ attributes are fully supported for classes, properties, methods, paramete
 
 ## Overview
 
-Attributes provide a way to add structured metadata to declarations. Aurora Reflection extracts all attributes with their arguments.
+Attributes provide a way to add structured metadata to declarations. PHP Introspector extracts all attributes with their arguments.
 
 ## Basic Usage
 
@@ -27,7 +27,7 @@ class UserController
 Access attributes:
 
 ```php
-use Aurora\Reflection\Reader;
+use Introspector\Reader;
 
 $reader = new Reader();
 $metadata = $reader->read(UserController::class);
@@ -369,7 +369,7 @@ function generateApiDocs(string $controllerClass): array
 
 ## Built-in PHP Attributes
 
-Aurora Reflection also captures built-in PHP attributes:
+PHP Introspector also captures built-in PHP attributes:
 
 ### #[Override] (PHP 8.3+)
 
