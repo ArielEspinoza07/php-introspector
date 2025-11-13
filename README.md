@@ -2,8 +2,9 @@
 
 A modern, type-safe PHP reflection library that extracts comprehensive metadata from classes, including properties, methods, constants, DocBlocks, and more.
 
-[![PHP Version](https://img.shields.io/badge/php-%5E8.2-blue)](https://www.php.net/)
+[![PHP Version](https://img.shields.io/badge/php-%5E8.3-blue)](https://www.php.net/)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+[![CI](https://github.com/ArielEspinoza07/php-introspector/actions/workflows/ci.yml/badge.svg)](https://github.com/ArielEspinoza07/php-introspector/actions/workflows/ci.yml)
 
 ## Features
 
