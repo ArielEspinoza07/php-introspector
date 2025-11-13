@@ -20,7 +20,7 @@ test('can read complete class metadata', function () {
 
     expect($metadata->class->name)->toBe(CompleteClass::class)
         ->and($metadata->class->shortName)->toBe('CompleteClass')
-        ->and($metadata->class->nameSpace)->toBe('Aurora\Reflection\Tests\Fixtures')
+        ->and($metadata->class->nameSpace)->toBe('Introspector\Tests\Fixtures')
         ->and($metadata->class->type)->toBe(ClassType::Class_)
         ->and($metadata->class->modifier->isFinal)->toBeTrue()
         ->and($metadata->class->modifier->isAbstract)->toBeFalse();

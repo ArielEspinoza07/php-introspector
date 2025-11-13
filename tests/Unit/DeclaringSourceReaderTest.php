@@ -18,7 +18,7 @@ test('detects properties from trait', function () {
     expect($createdAt->declaringSource->type)->toBe(SourceType::Trait_)
         ->and($createdAt->declaringSource->className)->toBe(TimestampTrait::class)
         ->and($createdAt->declaringSource->shortName)->toBe('TimestampTrait')
-        ->and($createdAt->declaringSource->namespace)->toBe('Aurora\Reflection\Tests\Fixtures')
+        ->and($createdAt->declaringSource->namespace)->toBe('Introspector\Tests\Fixtures')
         ->and($updatedAt->declaringSource->type)->toBe(SourceType::Trait_);
 });
 
@@ -157,7 +157,7 @@ test('declaring source includes namespace', function () {
 
     $createdAt = array_values(array_filter($metadata->properties, fn ($p) => $p->name === 'createdAt'))[0];
 
-    expect($createdAt->declaringSource->namespace)->toBe('Aurora\Reflection\Tests\Fixtures');
+    expect($createdAt->declaringSource->namespace)->toBe('Introspector\Tests\Fixtures');
 });
 
 test('can group members by source', function () {
@@ -204,7 +204,7 @@ test('declaring source is serializable', function () {
         ->and($decoded['declaring_source']['type'])->toBe('trait')
         ->and($decoded['declaring_source']['class_name'])->toBe(TimestampTrait::class)
         ->and($decoded['declaring_source']['short_name'])->toBe('TimestampTrait')
-        ->and($decoded['declaring_source']['namespace'])->toBe('Aurora\Reflection\Tests\Fixtures');
+        ->and($decoded['declaring_source']['namespace'])->toBe('Introspector\Tests\Fixtures');
 });
 
 test('detects properties from nested traits correctly', function () {

@@ -115,7 +115,7 @@ test('cache key uses class namespace correctly', function () {
 
     // The cache should have the key with dots instead of backslashes
     // We can verify by checking has()
-    expect($cachedReader->has('Aurora\Reflection\Tests\Fixtures\CompleteClass'))->toBeTrue();
+    expect($cachedReader->has('Introspector\Tests\Fixtures\CompleteClass'))->toBeTrue();
 });
 
 test('reading after forget re-reads from reflection', function () {
