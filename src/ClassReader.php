@@ -21,7 +21,6 @@ final class ClassReader
 {
     /**
      * @param  ReflectionClass<T>  $ref
-     *
      */
     public function getMetadata(ReflectionClass $ref): ClassMetadata
     {
@@ -135,7 +134,6 @@ final class ClassReader
     /**
      * @param  ReflectionClass<T>  $ref
      * @return list<DeclaringSource>
-     *
      */
     private function getImplements(ReflectionClass $ref): array
     {
@@ -155,7 +153,6 @@ final class ClassReader
     /**
      * @param  ReflectionClass<T>  $ref
      * @return list<DeclaringSource>
-     *
      */
     private function getTraits(ReflectionClass $ref): array
     {
