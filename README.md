@@ -16,7 +16,7 @@ A modern, type-safe PHP reflection library that extracts comprehensive metadata 
 - 🔒 **Visibility & Modifiers** - Track public/protected/private, static, readonly, final, abstract
 - 💾 **Optional Caching** - Built-in PSR-16 compatible caching layer
 - 🎨 **Value Objects** - Immutable, type-safe metadata structures
-- 🔧 **PHP 8.2+ Ready** - Leverages modern PHP features
+- 🔧 **PHP 8.3+ Ready** - Leverages modern PHP features
 
 ## Installation
 
@@ -159,7 +159,7 @@ foreach ($metadata->methods as $method) {
 
 ## Requirements
 
-- PHP 8.2 or higher
+- PHP 8.3 or higher
 
 ## Testing
 
@@ -173,7 +173,7 @@ composer test
 
 Contributions are welcome! Please ensure:
 
-1. PHP 8.2+ compatibility
+1. PHP 8.3+ compatibility
 2. Type safety (strict types)
 3. PHPDoc for all public APIs
 4. Tests for new features
