@@ -5,6 +5,8 @@ A modern, type-safe PHP reflection library that extracts comprehensive metadata 
 [![PHP Version](https://img.shields.io/badge/php-%5E8.3-blue)](https://www.php.net/)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![CI](https://github.com/ArielEspinoza07/php-introspector/actions/workflows/ci.yml/badge.svg)](https://github.com/ArielEspinoza07/php-introspector/actions/workflows/ci.yml)
+[![Packagist Version](https://img.shields.io/packagist/v/arielespinoza07/php-introspector)](https://packagist.org/packages/arielespinoza07/php-introspector)
+[![Packagist Downloads](https://img.shields.io/packagist/dt/arielespinoza07/php-introspector)](https://packagist.org/packages/arielespinoza07/php-introspector)
 
 ## Features
 
