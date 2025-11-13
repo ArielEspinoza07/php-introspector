@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Aurora\Reflection\VOs\Properties;
+namespace Introspector\VOs\Properties;
 
-use Aurora\Reflection\VOs\Attributes\AttributeMetadata;
-use Aurora\Reflection\VOs\DocBlocks\DocBlockMetadata;
-use Aurora\Reflection\VOs\Modifiers\PropertyModifier;
-use Aurora\Reflection\VOs\Shared\DeclaringSource;
-use Aurora\Reflection\VOs\Types\TypeMetadata;
+use Introspector\VOs\Attributes\AttributeMetadata;
+use Introspector\VOs\DocBlocks\DocBlockMetadata;
+use Introspector\VOs\Modifiers\PropertyModifier;
+use Introspector\VOs\Shared\DeclaringSource;
+use Introspector\VOs\Types\TypeMetadata;
 use JsonSerializable;
 
 final readonly class PropertyMetadata implements JsonSerializable

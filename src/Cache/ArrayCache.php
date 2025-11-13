@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Aurora\Reflection\Cache;
+namespace Introspector\Cache;
 
 use DateInterval;
 use DateTimeImmutable;

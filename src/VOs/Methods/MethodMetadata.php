@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Aurora\Reflection\VOs\Methods;
+namespace Introspector\VOs\Methods;
 
-use Aurora\Reflection\VOs\Attributes\AttributeMetadata;
-use Aurora\Reflection\VOs\DocBlocks\DocBlockMetadata;
-use Aurora\Reflection\VOs\Modifiers\MethodModifier;
-use Aurora\Reflection\VOs\Parameters\ParameterMetadata;
-use Aurora\Reflection\VOs\Shared\DeclaringSource;
-use Aurora\Reflection\VOs\Shared\LinesMetadata;
-use Aurora\Reflection\VOs\Types\TypeMetadata;
+use Introspector\VOs\Attributes\AttributeMetadata;
+use Introspector\VOs\DocBlocks\DocBlockMetadata;
+use Introspector\VOs\Modifiers\MethodModifier;
+use Introspector\VOs\Parameters\ParameterMetadata;
+use Introspector\VOs\Shared\DeclaringSource;
+use Introspector\VOs\Shared\LinesMetadata;
+use Introspector\VOs\Types\TypeMetadata;
 use JsonSerializable;
 
 final readonly class MethodMetadata implements JsonSerializable

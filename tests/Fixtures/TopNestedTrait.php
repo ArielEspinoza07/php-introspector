@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Aurora\Reflection\Tests\Fixtures;
+namespace Introspector\Tests\Fixtures;
 
 /**
  * Top level trait that uses MiddleNestedTrait (3 levels deep)

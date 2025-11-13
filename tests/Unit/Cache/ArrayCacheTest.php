@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Aurora\Reflection\Cache\ArrayCache;
+use Introspector\Cache\ArrayCache;
 
 test('can set and get value', function () {
     $cache = new ArrayCache();

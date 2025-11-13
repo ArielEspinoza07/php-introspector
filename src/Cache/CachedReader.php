@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Aurora\Reflection\Cache;
+namespace Introspector\Cache;
 
-use Aurora\Reflection\Exceptions\ReflectionReadException;
-use Aurora\Reflection\Reader;
-use Aurora\Reflection\VOs\Metadata;
+use Introspector\Exceptions\ReflectionReadException;
+use Introspector\Reader;
+use Introspector\VOs\Metadata;
 use ReflectionException;
 
 /**

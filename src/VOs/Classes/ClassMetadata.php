@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Aurora\Reflection\VOs\Classes;
+namespace Introspector\VOs\Classes;
 
-use Aurora\Reflection\VOs\Attributes\AttributeMetadata;
-use Aurora\Reflection\VOs\DocBlocks\DocBlockMetadata;
-use Aurora\Reflection\VOs\Modifiers\ClassModifier;
-use Aurora\Reflection\Enums\ClassType;
-use Aurora\Reflection\VOs\Shared\DeclaringSource;
-use Aurora\Reflection\VOs\Shared\LinesMetadata;
+use Introspector\VOs\Attributes\AttributeMetadata;
+use Introspector\VOs\DocBlocks\DocBlockMetadata;
+use Introspector\VOs\Modifiers\ClassModifier;
+use Introspector\Enums\ClassType;
+use Introspector\VOs\Shared\DeclaringSource;
+use Introspector\VOs\Shared\LinesMetadata;
 use JsonSerializable;
 
 final readonly class ClassMetadata implements JsonSerializable

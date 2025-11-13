@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Aurora\Reflection\VOs\Modifiers;
+namespace Introspector\VOs\Modifiers;
 
-use Aurora\Reflection\Enums\Visibility;
+use Introspector\Enums\Visibility;
 use JsonSerializable;
 
 final readonly class ConstructorModifier implements JsonSerializable

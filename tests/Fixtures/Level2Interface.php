@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Aurora\Reflection\Tests\Fixtures;
+namespace Introspector\Tests\Fixtures;
 
 /**
  * Level 2 interface that extends Level1Interface

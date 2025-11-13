@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Aurora\Reflection\VOs\Constants;
+namespace Introspector\VOs\Constants;
 
-use Aurora\Reflection\Enums\Visibility;
-use Aurora\Reflection\VOs\DocBlocks\DocBlockMetadata;
-use Aurora\Reflection\VOs\Shared\DeclaringSource;
-use Aurora\Reflection\VOs\Types\TypeMetadata;
+use Introspector\Enums\Visibility;
+use Introspector\VOs\DocBlocks\DocBlockMetadata;
+use Introspector\VOs\Shared\DeclaringSource;
+use Introspector\VOs\Types\TypeMetadata;
 use JsonSerializable;
 
 final readonly class ConstantMetadata implements JsonSerializable

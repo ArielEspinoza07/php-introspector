@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Aurora\Reflection;
+namespace Introspector;
 
-use Aurora\Reflection\Enums\Visibility;
-use Aurora\Reflection\VOs\Constants\ConstantMetadata;
-use Aurora\Reflection\VOs\DocBlocks\DocBlockMetadata;
-use Aurora\Reflection\VOs\Shared\DeclaringSource;
-use Aurora\Reflection\VOs\Types\TypeMetadata;
+use Introspector\Enums\Visibility;
+use Introspector\VOs\Constants\ConstantMetadata;
+use Introspector\VOs\DocBlocks\DocBlockMetadata;
+use Introspector\VOs\Shared\DeclaringSource;
+use Introspector\VOs\Types\TypeMetadata;
 use ReflectionClass;
 use ReflectionClassConstant;
 use ReflectionException;

@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-use Aurora\Reflection\Enums\ClassType;
-use Aurora\Reflection\Enums\SourceType;
-use Aurora\Reflection\Enums\Visibility;
-use Aurora\Reflection\Reader;
-use Aurora\Reflection\Tests\Fixtures\AbstractShape;
-use Aurora\Reflection\Tests\Fixtures\Circle;
-use Aurora\Reflection\Tests\Fixtures\CompleteClass;
-use Aurora\Reflection\Tests\Fixtures\MixInterfaceTrait;
-use Aurora\Reflection\Tests\Fixtures\SerializableInterface;
-use Aurora\Reflection\Tests\Fixtures\Status;
-use Aurora\Reflection\Tests\Fixtures\TimestampTrait;
+use Introspector\Enums\ClassType;
+use Introspector\Enums\SourceType;
+use Introspector\Enums\Visibility;
+use Introspector\Reader;
+use Introspector\Tests\Fixtures\AbstractShape;
+use Introspector\Tests\Fixtures\Circle;
+use Introspector\Tests\Fixtures\CompleteClass;
+use Introspector\Tests\Fixtures\MixInterfaceTrait;
+use Introspector\Tests\Fixtures\SerializableInterface;
+use Introspector\Tests\Fixtures\Status;
+use Introspector\Tests\Fixtures\TimestampTrait;
 
 test('can read complete class metadata', function () {
     $reader = new Reader();

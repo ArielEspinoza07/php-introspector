@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Aurora\Reflection;
+namespace Introspector;
 
-use Aurora\Reflection\VOs\Attributes\AttributeMetadata;
+use Introspector\VOs\Attributes\AttributeMetadata;
 use ReflectionAttribute;
 use ReflectionClass;
 use ReflectionException;

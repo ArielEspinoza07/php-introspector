@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Aurora\Reflection;
+namespace Introspector;
 
-use Aurora\Reflection\Enums\MemberType;
-use Aurora\Reflection\Enums\SourceType;
-use Aurora\Reflection\VOs\Shared\DeclaringSource;
+use Introspector\Enums\MemberType;
+use Introspector\Enums\SourceType;
+use Introspector\VOs\Shared\DeclaringSource;
 use ReflectionClass;
 use ReflectionClassConstant;
 use ReflectionException;

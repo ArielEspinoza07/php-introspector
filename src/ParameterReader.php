@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Aurora\Reflection;
+namespace Introspector;
 
-use Aurora\Reflection\VOs\Attributes\AttributeMetadata;
-use Aurora\Reflection\VOs\Parameters\ParameterMetadata;
-use Aurora\Reflection\VOs\Types\TypeMetadata;
+use Introspector\VOs\Attributes\AttributeMetadata;
+use Introspector\VOs\Parameters\ParameterMetadata;
+use Introspector\VOs\Types\TypeMetadata;
 use ReflectionClass;
 use ReflectionParameter;
 

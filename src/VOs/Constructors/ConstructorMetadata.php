@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Aurora\Reflection\VOs\Constructors;
+namespace Introspector\VOs\Constructors;
 
-use Aurora\Reflection\VOs\Attributes\AttributeMetadata;
-use Aurora\Reflection\VOs\DocBlocks\DocBlockMetadata;
-use Aurora\Reflection\VOs\Modifiers\ConstructorModifier;
-use Aurora\Reflection\VOs\Parameters\ParameterMetadata;
+use Introspector\VOs\Attributes\AttributeMetadata;
+use Introspector\VOs\DocBlocks\DocBlockMetadata;
+use Introspector\VOs\Modifiers\ConstructorModifier;
+use Introspector\VOs\Parameters\ParameterMetadata;
 use JsonSerializable;
 
 final readonly class ConstructorMetadata implements JsonSerializable

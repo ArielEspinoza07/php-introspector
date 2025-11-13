@@ -1,5 +1,5 @@
 {
-    "name": "aurora-php/reflection",
+    "name": "arielespinoza07/php-introspector",
     "description": "Modern, type-safe PHP reflection library with comprehensive metadata extraction, member source tracking, DocBlock parsing, and caching support",
     "keywords": [
         "reflection",
@@ -30,12 +30,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Aurora\\Reflection\\": "src/"
+            "Introspector\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Aurora\\Reflection\\Tests\\": "tests/"
+            "Introspector\\Tests\\": "tests/"
         }
     },
     "scripts": {

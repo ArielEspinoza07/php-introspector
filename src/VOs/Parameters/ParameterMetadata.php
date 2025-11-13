@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Aurora\Reflection\VOs\Parameters;
+namespace Introspector\VOs\Parameters;
 
-use Aurora\Reflection\VOs\Attributes\AttributeMetadata;
-use Aurora\Reflection\VOs\Types\TypeMetadata;
+use Introspector\VOs\Attributes\AttributeMetadata;
+use Introspector\VOs\Types\TypeMetadata;
 use JsonSerializable;
 
 final readonly class ParameterMetadata implements JsonSerializable

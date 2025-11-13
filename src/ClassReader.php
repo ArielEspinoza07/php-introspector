@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Aurora\Reflection;
+namespace Introspector;
 
-use Aurora\Reflection\Enums\ClassType;
-use Aurora\Reflection\Enums\SourceType;
-use Aurora\Reflection\VOs\Attributes\AttributeMetadata;
-use Aurora\Reflection\VOs\Classes\ClassMetadata;
-use Aurora\Reflection\VOs\DocBlocks\DocBlockMetadata;
-use Aurora\Reflection\VOs\Modifiers\ClassModifier;
-use Aurora\Reflection\VOs\Shared\DeclaringSource;
-use Aurora\Reflection\VOs\Shared\LinesMetadata;
+use Introspector\Enums\ClassType;
+use Introspector\Enums\SourceType;
+use Introspector\VOs\Attributes\AttributeMetadata;
+use Introspector\VOs\Classes\ClassMetadata;
+use Introspector\VOs\DocBlocks\DocBlockMetadata;
+use Introspector\VOs\Modifiers\ClassModifier;
+use Introspector\VOs\Shared\DeclaringSource;
+use Introspector\VOs\Shared\LinesMetadata;
 use ReflectionClass;
 
 /**

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Aurora\Reflection\VOs\Shared;
+namespace Introspector\VOs\Shared;
 
 use JsonSerializable;
 

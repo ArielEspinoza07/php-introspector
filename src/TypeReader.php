@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Aurora\Reflection;
+namespace Introspector;
 
-use Aurora\Reflection\VOs\Types\TypeMetadata;
+use Introspector\VOs\Types\TypeMetadata;
 use ReflectionClass;
 use ReflectionIntersectionType;
 use ReflectionNamedType;

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-use Aurora\Reflection\Cache\ArrayCache;
-use Aurora\Reflection\Cache\CachedReader;
-use Aurora\Reflection\Reader;
-use Aurora\Reflection\Tests\Fixtures\Circle;
-use Aurora\Reflection\Tests\Fixtures\CompleteClass;
+use Introspector\Cache\ArrayCache;
+use Introspector\Cache\CachedReader;
+use Introspector\Reader;
+use Introspector\Tests\Fixtures\Circle;
+use Introspector\Tests\Fixtures\CompleteClass;
 
 test('caches metadata on first read', function () {
     $cache = new ArrayCache();

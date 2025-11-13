@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Aurora\Reflection;
+namespace Introspector;
 
-use Aurora\Reflection\Enums\Visibility;
-use Aurora\Reflection\VOs\Attributes\AttributeMetadata;
-use Aurora\Reflection\VOs\Constructors\ConstructorMetadata;
-use Aurora\Reflection\VOs\DocBlocks\DocBlockMetadata;
-use Aurora\Reflection\VOs\Modifiers\ConstructorModifier;
-use Aurora\Reflection\VOs\Parameters\ParameterMetadata;
+use Introspector\Enums\Visibility;
+use Introspector\VOs\Attributes\AttributeMetadata;
+use Introspector\VOs\Constructors\ConstructorMetadata;
+use Introspector\VOs\DocBlocks\DocBlockMetadata;
+use Introspector\VOs\Modifiers\ConstructorModifier;
+use Introspector\VOs\Parameters\ParameterMetadata;
 use ReflectionClass;
 use ReflectionMethod;
 

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-use Aurora\Reflection\Enums\SourceType;
-use Aurora\Reflection\Reader;
-use Aurora\Reflection\Tests\Fixtures\Circle;
-use Aurora\Reflection\Tests\Fixtures\CompleteClass;
-use Aurora\Reflection\Tests\Fixtures\TimestampTrait;
+use Introspector\Enums\SourceType;
+use Introspector\Reader;
+use Introspector\Tests\Fixtures\Circle;
+use Introspector\Tests\Fixtures\CompleteClass;
+use Introspector\Tests\Fixtures\TimestampTrait;
 
 test('detects properties from trait', function () {
     $reader = new Reader();

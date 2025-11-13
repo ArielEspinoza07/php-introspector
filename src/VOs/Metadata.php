@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Aurora\Reflection\VOs;
+namespace Introspector\VOs;
 
-use Aurora\Reflection\VOs\Classes\ClassMetadata;
-use Aurora\Reflection\VOs\Constants\ConstantMetadata;
-use Aurora\Reflection\VOs\Constructors\ConstructorMetadata;
-use Aurora\Reflection\VOs\Methods\MethodMetadata;
-use Aurora\Reflection\VOs\Properties\PropertyMetadata;
+use Introspector\VOs\Classes\ClassMetadata;
+use Introspector\VOs\Constants\ConstantMetadata;
+use Introspector\VOs\Constructors\ConstructorMetadata;
+use Introspector\VOs\Methods\MethodMetadata;
+use Introspector\VOs\Properties\PropertyMetadata;
 use JsonSerializable;
 
 final readonly class Metadata implements JsonSerializable

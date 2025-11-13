@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Aurora\Reflection\VOs\Types;
+namespace Introspector\VOs\Types;
 
 use JsonSerializable;
 

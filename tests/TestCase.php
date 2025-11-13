@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Aurora\Reflection\Tests;
+namespace Introspector\Tests;
 
 use PHPUnit\Framework\TestCase as BaseTestCase;
 

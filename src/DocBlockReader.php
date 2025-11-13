@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Aurora\Reflection;
+namespace Introspector;
 
-use Aurora\Reflection\VOs\DocBlocks\CustomTag;
-use Aurora\Reflection\VOs\DocBlocks\DocBlockMetadata;
-use Aurora\Reflection\VOs\DocBlocks\ParamTag;
-use Aurora\Reflection\VOs\DocBlocks\ReturnTag;
-use Aurora\Reflection\VOs\DocBlocks\ThrowsTag;
-use Aurora\Reflection\VOs\DocBlocks\VarTag;
+use Introspector\VOs\DocBlocks\CustomTag;
+use Introspector\VOs\DocBlocks\DocBlockMetadata;
+use Introspector\VOs\DocBlocks\ParamTag;
+use Introspector\VOs\DocBlocks\ReturnTag;
+use Introspector\VOs\DocBlocks\ThrowsTag;
+use Introspector\VOs\DocBlocks\VarTag;
 
 final class DocBlockReader
 {

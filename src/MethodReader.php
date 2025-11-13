@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Aurora\Reflection;
+namespace Introspector;
 
-use Aurora\Reflection\Enums\Visibility;
-use Aurora\Reflection\VOs\Attributes\AttributeMetadata;
-use Aurora\Reflection\VOs\DocBlocks\DocBlockMetadata;
-use Aurora\Reflection\VOs\Methods\MethodMetadata;
-use Aurora\Reflection\VOs\Modifiers\MethodModifier;
-use Aurora\Reflection\VOs\Parameters\ParameterMetadata;
-use Aurora\Reflection\VOs\Shared\DeclaringSource;
-use Aurora\Reflection\VOs\Shared\LinesMetadata;
-use Aurora\Reflection\VOs\Types\TypeMetadata;
+use Introspector\Enums\Visibility;
+use Introspector\VOs\Attributes\AttributeMetadata;
+use Introspector\VOs\DocBlocks\DocBlockMetadata;
+use Introspector\VOs\Methods\MethodMetadata;
+use Introspector\VOs\Modifiers\MethodModifier;
+use Introspector\VOs\Parameters\ParameterMetadata;
+use Introspector\VOs\Shared\DeclaringSource;
+use Introspector\VOs\Shared\LinesMetadata;
+use Introspector\VOs\Types\TypeMetadata;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;

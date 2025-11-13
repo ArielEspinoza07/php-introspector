@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Aurora\Reflection\Enums;
+namespace Introspector\Enums;
 
 enum ClassType: string
 {

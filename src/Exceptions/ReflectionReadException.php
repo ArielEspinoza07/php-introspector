@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Aurora\Reflection\Exceptions;
+namespace Introspector\Exceptions;
 
 use ReflectionException;
 

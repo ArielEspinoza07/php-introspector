@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Aurora\Reflection\VOs\Shared;
+namespace Introspector\VOs\Shared;
 
-use Aurora\Reflection\Enums\SourceType;
+use Introspector\Enums\SourceType;
 use JsonSerializable;
 
 final readonly class DeclaringSource implements JsonSerializable
