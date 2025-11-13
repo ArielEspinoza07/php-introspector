@@ -206,3 +206,94 @@ test('declaring source is serializable', function () {
         ->and($decoded['declaring_source']['short_name'])->toBe('TimestampTrait')
         ->and($decoded['declaring_source']['namespace'])->toBe('Aurora\Reflection\Tests\Fixtures');
 });
+
+test('detects properties from nested traits correctly', function () {
+    $reader = new Reader();
+    $metadata = $reader->read(CompleteClass::class);
+
+    // BaseNestedTrait property (deepest level)
+    $baseTraitProperty = array_values(array_filter($metadata->properties, fn ($p) => $p->name === 'baseTraitProperty'))[0] ?? null;
+    expect($baseTraitProperty)->not->toBeNull()
+        ->and($baseTraitProperty->declaringSource->type)->toBe(SourceType::Trait_)
+        ->and($baseTraitProperty->declaringSource->shortName)->toBe('BaseNestedTrait');
+
+    // MiddleNestedTrait property (middle level)
+    $middleTraitProperty = array_values(array_filter($metadata->properties, fn ($p) => $p->name === 'middleTraitProperty'))[0] ?? null;
+    expect($middleTraitProperty)->not->toBeNull()
+        ->and($middleTraitProperty->declaringSource->type)->toBe(SourceType::Trait_)
+        ->and($middleTraitProperty->declaringSource->shortName)->toBe('MiddleNestedTrait');
+
+    // TopNestedTrait property (top level)
+    $topTraitProperty = array_values(array_filter($metadata->properties, fn ($p) => $p->name === 'topTraitProperty'))[0] ?? null;
+    expect($topTraitProperty)->not->toBeNull()
+        ->and($topTraitProperty->declaringSource->type)->toBe(SourceType::Trait_)
+        ->and($topTraitProperty->declaringSource->shortName)->toBe('TopNestedTrait');
+});
+
+test('detects methods from nested traits correctly', function () {
+    $reader = new Reader();
+    $metadata = $reader->read(CompleteClass::class);
+
+    // BaseNestedTrait method (deepest level)
+    $baseTraitMethod = array_values(array_filter($metadata->methods, fn ($m) => $m->name === 'baseTraitMethod'))[0] ?? null;
+    expect($baseTraitMethod)->not->toBeNull()
+        ->and($baseTraitMethod->declaringSource->type)->toBe(SourceType::Trait_)
+        ->and($baseTraitMethod->declaringSource->shortName)->toBe('BaseNestedTrait');
+
+    // MiddleNestedTrait method (middle level)
+    $middleTraitMethod = array_values(array_filter($metadata->methods, fn ($m) => $m->name === 'middleTraitMethod'))[0] ?? null;
+    expect($middleTraitMethod)->not->toBeNull()
+        ->and($middleTraitMethod->declaringSource->type)->toBe(SourceType::Trait_)
+        ->and($middleTraitMethod->declaringSource->shortName)->toBe('MiddleNestedTrait');
+
+    // TopNestedTrait method (top level)
+    $topTraitMethod = array_values(array_filter($metadata->methods, fn ($m) => $m->name === 'topTraitMethod'))[0] ?? null;
+    expect($topTraitMethod)->not->toBeNull()
+        ->and($topTraitMethod->declaringSource->type)->toBe(SourceType::Trait_)
+        ->and($topTraitMethod->declaringSource->shortName)->toBe('TopNestedTrait');
+});
+
+test('detects constants from nested interfaces correctly', function () {
+    $reader = new Reader();
+    $metadata = $reader->read(CompleteClass::class);
+
+    // Level1Interface constant (deepest level)
+    $level1Const = array_values(array_filter($metadata->constants, fn ($c) => $c->name === 'LEVEL1_CONST'))[0] ?? null;
+    expect($level1Const)->not->toBeNull()
+        ->and($level1Const->declaringSource->type)->toBe(SourceType::Interface_)
+        ->and($level1Const->declaringSource->shortName)->toBe('Level1Interface');
+
+    // Level2Interface constant (middle level)
+    $level2Const = array_values(array_filter($metadata->constants, fn ($c) => $c->name === 'LEVEL2_CONST'))[0] ?? null;
+    expect($level2Const)->not->toBeNull()
+        ->and($level2Const->declaringSource->type)->toBe(SourceType::Interface_)
+        ->and($level2Const->declaringSource->shortName)->toBe('Level2Interface');
+
+    // Level3Interface constant (top level)
+    $level3Const = array_values(array_filter($metadata->constants, fn ($c) => $c->name === 'LEVEL3_CONST'))[0] ?? null;
+    expect($level3Const)->not->toBeNull()
+        ->and($level3Const->declaringSource->type)->toBe(SourceType::Interface_)
+        ->and($level3Const->declaringSource->shortName)->toBe('Level3Interface');
+});
+
+test('interface methods implemented by traits report trait as source', function () {
+    $reader = new Reader();
+    $metadata = $reader->read(CompleteClass::class);
+
+    // When a method is declared in an interface but implemented by a trait,
+    // it's correctly reported as coming from the trait (actual implementation),
+    // not the interface (just the contract). This is consistent with PHP's
+    // getDeclaringClass() behavior and more useful for finding the actual code.
+
+    // level1Method: declared in Level1Interface, implemented by MixInterfaceTrait
+    $level1Method = array_values(array_filter($metadata->methods, fn ($m) => $m->name === 'level1Method'))[0] ?? null;
+    expect($level1Method)->not->toBeNull()
+        ->and($level1Method->declaringSource->type)->toBe(SourceType::Trait_)
+        ->and($level1Method->declaringSource->shortName)->toBe('MixInterfaceTrait');
+
+    // level2Method: declared in Level2Interface, implemented by MixInterfaceTrait
+    $level2Method = array_values(array_filter($metadata->methods, fn ($m) => $m->name === 'level2Method'))[0] ?? null;
+    expect($level2Method)->not->toBeNull()
+        ->and($level2Method->declaringSource->type)->toBe(SourceType::Trait_)
+        ->and($level2Method->declaringSource->shortName)->toBe('MixInterfaceTrait');
+});
